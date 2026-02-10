@@ -11,10 +11,6 @@ import {
   Alert,
   Autocomplete,
   Chip,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -37,7 +33,8 @@ interface ScadenzeFormProps {
 interface FormValues {
   Name: string;
   Rec?: number;
-  Date?: Date | null;
+  Date: string | null; // Raw date
+  ScadenzaReale?: string | null; // Calculated date
   UtenteIds: Utente[];
   ClienteIds: Cliente[];
 }
@@ -62,6 +59,7 @@ export default function ScadenzeForm({ open, onClose, scadenza, isLoading: isSca
       Name: '',
       Rec: undefined,
       Date: null,
+      ScadenzaReale: null,
       UtenteIds: [],
       ClienteIds: [],
     },
@@ -83,7 +81,8 @@ export default function ScadenzeForm({ open, onClose, scadenza, isLoading: isSca
       reset({
         Name: scadenza.Name,
         Rec: scadenza.Rec || undefined,
-        Date: scadenza.Date ? parseISO(scadenza.Date) : null,
+        Date: scadenza.Date,
+        ScadenzaReale: scadenza.ScadenzaReale,
         UtenteIds: selectedUtenti,
         ClienteIds: selectedClienti,
       });
@@ -92,6 +91,7 @@ export default function ScadenzeForm({ open, onClose, scadenza, isLoading: isSca
         Name: '',
         Rec: undefined,
         Date: null,
+        ScadenzaReale: null,
         UtenteIds: [],
         ClienteIds: [],
       });
@@ -102,7 +102,7 @@ export default function ScadenzeForm({ open, onClose, scadenza, isLoading: isSca
     const payload = {
       Name: values.Name,
       Rec: values.Rec ?? 0,
-      Date: values.Date ? values.Date.toISOString().split('T')[0] : undefined,
+      Date: values.Date || undefined,
       UtenteIds: values.UtenteIds.map((u) => u.Id),
       ClienteIds: values.ClienteIds.map((c) => c.Id),
     };
@@ -146,32 +146,13 @@ export default function ScadenzeForm({ open, onClose, scadenza, isLoading: isSca
                     helperText={errors.Name?.message}
                   />
 
-                  <FormControl fullWidth>
-                    <InputLabel>Ricorrenza</InputLabel>
-                    <Select
-                      label="Ricorrenza"
-                      {...register('Rec', { valueAsNumber: true })}
-                      defaultValue={0}
-                    >
-                      {recurrenceOptions.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-                  <Controller
-                    name="Date"
-                    control={control}
-                    render={({ field }) => (
-                      <DatePicker
-                        label="Data"
-                        value={field.value}
-                        onChange={field.onChange}
-                        slotProps={{ textField: { fullWidth: true } }}
-                      />
-                    )}
+                  <TextField
+                    label="Ricorrenza (mesi)"
+                    type="number"
+                    fullWidth
+                    {...register('Rec', { valueAsNumber: true })}
+                    error={!!errors.Rec}
+                    helperText={errors.Rec?.message}
                   />
 
                   <Controller

@@ -7,6 +7,10 @@ docker rmi studiomar-backend 2>nul
 
 echo Building Docker images from scratch (no cache)...
 docker-compose build --no-cache backend
+if %errorlevel% neq 0 (
+    echo BUILD FAILED - check errors above
+    exit /b 1
+)
 
 echo Starting fresh Docker services (DB and Backend)...
 docker-compose up -d db backend

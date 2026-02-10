@@ -71,10 +71,10 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
       valueFormatter: (value: number) => value > 0 ? `${value} mesi` : 'No',
     },
     {
-      field: 'Date',
+      field: 'ScadenzaReale',
       headerName: 'DATA SCADENZA',
       width: 130,
-      valueFormatter: (value: string | null) => formatDate(value),
+      valueFormatter: (value: string | null | undefined) => formatDate(value),
     },
     {
       field: 'utenti',

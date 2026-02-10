@@ -25,6 +25,7 @@ export interface Scadenza {
   Name: string;
   Rec: number; // Recurrence in months
   Date: string | null;
+  ScadenzaReale?: string | null; // Calculated date based on recurrence
   IsActive: boolean;
   InsDate: string;
   ModDate: string;

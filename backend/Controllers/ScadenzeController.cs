@@ -7,6 +7,38 @@ using System.Globalization;
 
 namespace Backend.Controllers;
 
+public class ScadenzaUtenteDto
+{
+    public int Id { get; set; }
+    public int? UtenteId { get; set; }
+    public int? ScadenzaId { get; set; }
+    public string? Nome { get; set; }
+    public string? Cognome { get; set; }
+}
+
+public class ScadenzaClienteDto
+{
+    public int Id { get; set; }
+    public int? ClienteId { get; set; }
+    public int? ScadenzaId { get; set; }
+    public string? Name { get; set; }
+}
+
+public class ScadenzaResponse
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public DateTime? Date { get; set; }
+    public DateTime? ScadenzaReale { get; set; }
+    public int Rec { get; set; }
+    public bool IsActive { get; set; }
+    public DateTime? InsDate { get; set; }
+    public DateTime? ModDate { get; set; }
+    public int? InsUserId { get; set; }
+    public List<ScadenzaUtenteDto> ScadenzeUtenti { get; set; } = new();
+    public List<ScadenzaClienteDto> ScadenzeClienti { get; set; } = new();
+}
+
 [ApiController]
 [Route("api/v1/scadenze")]
 public class ScadenzeController : ControllerBase
@@ -65,8 +97,21 @@ public class ScadenzeController : ControllerBase
                 s.ModDate,
                 s.InsUserId,
                 s.IsActive,
-                ScadenzeUtenti = s.ScadenzeUtenti.Select(su => new { su.Id, su.UtenteId, su.ScadenzaId, su.Utente.Nome, su.Utente.Cognome }),
-                ScadenzeClienti = s.ScadenzeClienti.Select(sc => new { sc.Id, sc.ClienteId, sc.ScadenzaId, sc.Cliente.Name })
+                ScadenzeUtenti = s.ScadenzeUtenti.Select(su => new ScadenzaUtenteDto
+                {
+                    Id = su.Id,
+                    UtenteId = su.UtenteId,
+                    ScadenzaId = su.ScadenzaId,
+                    Nome = su.Utente.Nome,
+                    Cognome = su.Utente.Cognome
+                }),
+                ScadenzeClienti = s.ScadenzeClienti.Select(sc => new ScadenzaClienteDto
+                {
+                    Id = sc.Id,
+                    ClienteId = sc.ClienteId,
+                    ScadenzaId = sc.ScadenzaId,
+                    Name = sc.Cliente.Name
+                })
             })
             .ToListAsync();
 
@@ -84,18 +129,19 @@ public class ScadenzeController : ControllerBase
                     }
                     scadenzaReale = calcDate;
                 }
-                return new {
-                    s.Id,
-                    s.Name,
-                    s.Date,
+                return new ScadenzaResponse
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Date = s.Date,
                     ScadenzaReale = scadenzaReale,
-                    s.Rec,
-                    s.InsDate,
-                    s.ModDate,
-                    s.InsUserId,
-                    s.IsActive,
-                    s.ScadenzeUtenti,
-                    s.ScadenzeClienti
+                    Rec = s.Rec,
+                    InsDate = s.InsDate,
+                    ModDate = s.ModDate,
+                    InsUserId = s.InsUserId,
+                    IsActive = s.IsActive,
+                    ScadenzeUtenti = s.ScadenzeUtenti.ToList(),
+                    ScadenzeClienti = s.ScadenzeClienti.ToList()
                 };
             })
             .Where(s => {
@@ -114,6 +160,7 @@ public class ScadenzeController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetScadenza(int id)
     {
+        var today = DateTime.UtcNow.Date;
         var scadenza = await _context.Scadenze
             .Where(s => s.Id == id)
             .Select(s => new {
@@ -125,12 +172,54 @@ public class ScadenzeController : ControllerBase
                 s.ModDate,
                 s.InsUserId,
                 s.IsActive,
-                ScadenzeUtenti = s.ScadenzeUtenti.Select(su => new { su.Id, su.UtenteId, su.ScadenzaId, su.Utente.Nome, su.Utente.Cognome }),
-                ScadenzeClienti = s.ScadenzeClienti.Select(sc => new { sc.Id, sc.ClienteId, sc.ScadenzaId, sc.Cliente.Name })
+                ScadenzeUtenti = s.ScadenzeUtenti.Select(su => new ScadenzaUtenteDto
+                {
+                    Id = su.Id,
+                    UtenteId = su.UtenteId,
+                    ScadenzaId = su.ScadenzaId,
+                    Nome = su.Utente.Nome,
+                    Cognome = su.Utente.Cognome
+                }),
+                ScadenzeClienti = s.ScadenzeClienti.Select(sc => new ScadenzaClienteDto
+                {
+                    Id = sc.Id,
+                    ClienteId = sc.ClienteId,
+                    ScadenzaId = sc.ScadenzaId,
+                    Name = sc.Cliente.Name
+                })
             })
             .FirstOrDefaultAsync();
+        
         if (scadenza == null) return NotFound();
-        return Ok(scadenza);
+        
+        // Calculate ScadenzaReale
+        DateTime? scadenzaReale = scadenza.Date;
+        if (scadenza.Date.HasValue && scadenza.Rec > 0)
+        {
+            var calcDate = scadenza.Date.Value;
+            while (calcDate.Date < today)
+            {
+                calcDate = calcDate.AddMonths(scadenza.Rec);
+            }
+            scadenzaReale = calcDate;
+        }
+        
+        var response = new ScadenzaResponse
+        {
+            Id = scadenza.Id,
+            Name = scadenza.Name,
+            Date = scadenza.Date,
+            ScadenzaReale = scadenzaReale,
+            Rec = scadenza.Rec,
+            InsDate = scadenza.InsDate,
+            ModDate = scadenza.ModDate,
+            InsUserId = scadenza.InsUserId,
+            IsActive = scadenza.IsActive,
+            ScadenzeUtenti = scadenza.ScadenzeUtenti.ToList(),
+            ScadenzeClienti = scadenza.ScadenzeClienti.ToList()
+        };
+        
+        return Ok(response);
     }
 
     public class CreateScadenzaRequest
@@ -201,19 +290,64 @@ public class ScadenzeController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        var response = new {
-            scadenza.Id,
-            scadenza.Name,
-            scadenza.Rec,
-            scadenza.Date,
-            scadenza.IsActive,
-            scadenza.InsDate,
-            scadenza.ModDate,
-            UtenteIds = request.UtenteIds ?? new List<int>(),
-            ClienteIds = request.ClienteIds ?? new List<int>()
+        // Fetch with relations for response
+        var savedScadenza = await _context.Scadenze
+            .Include(s => s.ScadenzeUtenti)
+                .ThenInclude(su => su.Utente)
+            .Include(s => s.ScadenzeClienti)
+                .ThenInclude(sc => sc.Cliente)
+            .FirstOrDefaultAsync(s => s.Id == scadenza.Id);
+
+        // Calculate ScadenzaReale
+        DateTime? scadenzaReale = savedScadenza?.Date;
+        if (savedScadenza?.Date.HasValue == true && savedScadenza.Rec > 0)
+        {
+            var calcDate = savedScadenza.Date.Value;
+            var today = DateTime.UtcNow.Date;
+            while (calcDate.Date < today)
+            {
+                calcDate = calcDate.AddMonths(savedScadenza.Rec);
+            }
+            scadenzaReale = calcDate;
+        }
+
+        // Build relation data for response
+        var scadenzeUtenti = savedScadenza?.ScadenzeUtenti?
+            .Select(su => new ScadenzaUtenteDto
+            {
+                Id = su.Id,
+                UtenteId = su.UtenteId,
+                ScadenzaId = su.ScadenzaId,
+                Nome = su.Utente.Nome,
+                Cognome = su.Utente.Cognome
+            })
+            .ToList() ?? new List<ScadenzaUtenteDto>();
+        var scadenzeClienti = savedScadenza?.ScadenzeClienti?
+            .Select(sc => new ScadenzaClienteDto
+            {
+                Id = sc.Id,
+                ClienteId = sc.ClienteId,
+                ScadenzaId = sc.ScadenzaId,
+                Name = sc.Cliente.Name
+            })
+            .ToList() ?? new List<ScadenzaClienteDto>();
+
+        var response = new ScadenzaResponse
+        {
+            Id = savedScadenza!.Id,
+            Name = savedScadenza!.Name,
+            Date = savedScadenza!.Date,
+            ScadenzaReale = scadenzaReale,
+            Rec = savedScadenza!.Rec,
+            IsActive = savedScadenza!.IsActive,
+            InsDate = savedScadenza!.InsDate,
+            ModDate = savedScadenza!.ModDate,
+            InsUserId = savedScadenza!.InsUserId,
+            ScadenzeUtenti = scadenzeUtenti,
+            ScadenzeClienti = scadenzeClienti
         };
 
-        return CreatedAtAction(nameof(GetScadenza), new { id = scadenza.Id }, response);
+        return CreatedAtAction(nameof(GetScadenza), new { id = savedScadenza.Id }, response);
     }
 
     [HttpPut("{id}")]
