@@ -63,34 +63,29 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const fullColumns: GridColDef<ScadenzeWithRelations>[] = [
-    { field: 'Name', headerName: 'Nome', flex: 1, minWidth: 180 },
+    { field: 'Name', headerName: 'NOME', flex: 1, minWidth: 200 },
+    {
+      field: 'Rec',
+      headerName: 'RICORRENZA (RIC)',
+      width: 130,
+      valueFormatter: (value: number) => value > 0 ? `${value} mesi` : 'No',
+    },
     {
       field: 'Date',
-      headerName: 'Data',
-      width: 120,
+      headerName: 'DATA SCADENZA',
+      width: 130,
       valueFormatter: (value: string | null) => formatDate(value),
     },
     {
-      field: 'CalculatedDate',
-      headerName: 'Data calcolata',
-      width: 130,
-      valueFormatter: (value: string | undefined) => formatDate(value),
-    },
-    {
-      field: 'Rec',
-      headerName: 'Ricorrenza',
-      width: 130,
-      valueFormatter: (value: number) => formatRecurrence(value),
-    },
-    {
       field: 'utenti',
-      headerName: 'Utenti',
+      headerName: 'UTENTI',
       flex: 1,
       minWidth: 160,
       sortable: false,
       filterable: false,
       renderCell: (params) => {
         const relations = params.row.ScadenzeUtenti ?? [];
+        if (relations.length === 0) return '—';
         return (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="center" sx={{ py: 0.5 }}>
             {relations.map((su) => {
@@ -106,13 +101,14 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
     },
     {
       field: 'clienti',
-      headerName: 'Clienti',
+      headerName: 'CLIENTI',
       flex: 1,
       minWidth: 160,
       sortable: false,
       filterable: false,
       renderCell: (params) => {
         const relations = params.row.ScadenzeClienti ?? [];
+        if (relations.length === 0) return '—';
         return (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="center" sx={{ py: 0.5 }}>
             {relations.map((sc) => {
@@ -126,8 +122,8 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
     },
     {
       field: 'actions',
-      headerName: 'Azioni',
-      width: 120,
+      headerName: '',
+      width: 100,
       sortable: false,
       filterable: false,
       renderCell: (params) => (
@@ -149,11 +145,17 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
   ];
 
   const smallColumns: GridColDef<ScadenzeWithRelations>[] = [
-    { field: 'Name', headerName: 'Nome', flex: 1, minWidth: 120 },
+    { field: 'Name', headerName: 'NOME', flex: 1, minWidth: 150 },
+    {
+      field: 'Rec',
+      headerName: 'RIC',
+      width: 70,
+      valueFormatter: (value: number) => value > 0 ? `${value}m` : 'No',
+    },
     {
       field: 'Date',
-      headerName: 'Data',
-      minWidth: 110,
+      headerName: 'DATA',
+      width: 100,
       valueFormatter: (value: string | null) => formatDate(value),
     },
     {
