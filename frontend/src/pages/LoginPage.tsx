@@ -38,10 +38,10 @@ export default function LoginPage() {
       if (success) {
         navigate('/');
       } else {
-        setError('Invalid username or password');
+        setError('Nome utente o password non validi');
       }
     } catch (err) {
-      setError('An error occurred during login');
+      setError('Si è verificato un errore durante l\'accesso');
     } finally {
       setIsLoading(false);
     }

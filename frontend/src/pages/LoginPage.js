@@ -26,11 +26,11 @@ export default function LoginPage() {
                 navigate('/');
             }
             else {
-                setError('Invalid username or password');
+                setError('Nome utente o password non validi');
             }
         }
         catch (err) {
-            setError('An error occurred during login');
+            setError('Si è verificato un errore durante l\'accesso');
         }
         finally {
             setIsLoading(false);
@@ -85,11 +85,11 @@ export default function LoginPage() {
                                 color: 'white',
                                 mb: 2,
                                 boxShadow: theme.shadows[4]
-                            }, children: _jsx(LockOutlinedIcon, { fontSize: "large" }) }), _jsx(Typography, { component: "h1", variant: "h4", fontWeight: "600", color: "text.primary", gutterBottom: true, children: "Bentornato" }), _jsx(Typography, { variant: "body2", color: "text.secondary", sx: { mb: 4 }, children: "Accedi per continuare" }), error && (_jsx(Alert, { severity: "error", sx: { width: '100%', mb: 3, borderRadius: 2 }, children: error })), _jsxs(Box, { component: "form", noValidate: true, onSubmit: handleSubmit, sx: { mt: 1, width: '100%' }, children: [_jsx(TextField, { margin: "normal", required: true, fullWidth: true, id: "username", label: "Username", name: "username", autoComplete: "username", autoFocus: true, value: username, onChange: (e) => setUsername(e.target.value), disabled: isLoading, InputProps: {
+                            }, children: _jsx(LockOutlinedIcon, { fontSize: "large" }) }), _jsx(Typography, { component: "h1", variant: "h4", fontWeight: "600", color: "text.primary", gutterBottom: true, children: "Bentornato" }), _jsx(Typography, { variant: "body2", color: "text.secondary", sx: { mb: 4 }, children: "Accedi per continuare" }), error && (_jsx(Alert, { severity: "error", sx: { width: '100%', mb: 3, borderRadius: 2 }, children: error })), _jsxs(Box, { component: "form", noValidate: true, onSubmit: handleSubmit, sx: { mt: 1, width: '100%' }, children: [_jsx(TextField, { margin: "normal", required: true, fullWidth: true, id: "username", label: "Nome utente", name: "username", autoComplete: "username", autoFocus: true, value: username, onChange: (e) => setUsername(e.target.value), disabled: isLoading, InputProps: {
                                         startAdornment: (_jsx(InputAdornment, { position: "start", children: _jsx(PersonOutlineIcon, { color: "action" }) })),
                                     }, sx: { mb: 2 } }), _jsx(TextField, { margin: "normal", required: true, fullWidth: true, name: "password", label: "Password", type: showPassword ? 'text' : 'password', id: "password", autoComplete: "current-password", value: password, onChange: (e) => setPassword(e.target.value), disabled: isLoading, InputProps: {
                                         startAdornment: (_jsx(InputAdornment, { position: "start", children: _jsx(LockOutlinedIcon, { color: "action" }) })),
-                                        endAdornment: (_jsx(InputAdornment, { position: "end", children: _jsx(IconButton, { "aria-label": "toggle password visibility", onClick: () => setShowPassword(!showPassword), edge: "end", children: showPassword ? _jsx(VisibilityOff, {}) : _jsx(Visibility, {}) }) }))
+                                        endAdornment: (_jsx(InputAdornment, { position: "end", children: _jsx(IconButton, { "aria-label": "mostra/nascondi password", onClick: () => setShowPassword(!showPassword), edge: "end", children: showPassword ? _jsx(VisibilityOff, {}) : _jsx(Visibility, {}) }) }))
                                     }, sx: { mb: 3 } }), _jsx(Button, { type: "submit", fullWidth: true, variant: "contained", size: "large", sx: {
                                         mt: 1,
                                         mb: 2,
