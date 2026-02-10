@@ -1,0 +1,13 @@
+@echo off
+echo Stopping and removing existing containers...
+docker-compose down
+
+echo Building Docker images...
+docker-compose build backend
+
+echo Starting Docker services (DB and Backend)...
+docker-compose up -d db backend
+
+echo Services started. Starting Frontend...
+cd frontend
+npm run dev

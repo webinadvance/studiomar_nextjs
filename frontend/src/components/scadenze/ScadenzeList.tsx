@@ -49,13 +49,13 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
 
   const utentiMap = useMemo(() => {
     const map = new Map<number, Utente>();
-    utenti.forEach((u) => map.set(u.id, u));
+    utenti.forEach((u) => map.set(u.Id, u));
     return map;
   }, [utenti]);
 
   const clientiMap = useMemo(() => {
     const map = new Map<number, Cliente>();
-    clienti.forEach((c) => map.set(c.id, c));
+    clienti.forEach((c) => map.set(c.Id, c));
     return map;
   }, [clienti]);
 
@@ -63,21 +63,21 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const fullColumns: GridColDef<ScadenzeWithRelations>[] = [
-    { field: 'name', headerName: 'Nome', flex: 1, minWidth: 180 },
+    { field: 'Name', headerName: 'Nome', flex: 1, minWidth: 180 },
     {
-      field: 'date',
+      field: 'Date',
       headerName: 'Data',
       width: 120,
       valueFormatter: (value: string | null) => formatDate(value),
     },
     {
-      field: 'calculated_date',
+      field: 'CalculatedDate',
       headerName: 'Data calcolata',
       width: 130,
       valueFormatter: (value: string | undefined) => formatDate(value),
     },
     {
-      field: 'rec',
+      field: 'Rec',
       headerName: 'Ricorrenza',
       width: 130,
       valueFormatter: (value: number) => formatRecurrence(value),
@@ -90,15 +90,15 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
       sortable: false,
       filterable: false,
       renderCell: (params) => {
-        const relations = params.row.scadenze_utenti ?? [];
+        const relations = params.row.ScadenzeUtenti ?? [];
         return (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="center" sx={{ py: 0.5 }}>
             {relations.map((su) => {
-              const u = utentiMap.get(su.utente_id);
+              const u = utentiMap.get(su.UtenteId ?? 0);
               const label = u
-                ? [u.nome, u.cognome].filter(Boolean).join(' ') || `#${u.id}`
-                : `#${su.utente_id}`;
-              return <Chip key={su.id} label={label} size="small" variant="outlined" />;
+                ? [u.Nome, u.Cognome].filter(Boolean).join(' ') || `#${u.Id}`
+                : `#${su.UtenteId}`;
+              return <Chip key={su.Id} label={label} size="small" variant="outlined" />;
             })}
           </Stack>
         );
@@ -112,15 +112,13 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
       sortable: false,
       filterable: false,
       renderCell: (params) => {
-        const relations = params.row.scadenze_clienti ?? [];
+        const relations = params.row.ScadenzeClienti ?? [];
         return (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="center" sx={{ py: 0.5 }}>
             {relations.map((sc) => {
-              const c = clientiMap.get(sc.cliente_id);
-              const label = c ? c.name || `#${c.id}` : `#${sc.cliente_id}`;
-              return (
-                <Chip key={sc.id} label={label} size="small" color="primary" variant="outlined" />
-              );
+              const c = clientiMap.get(sc.ClienteId ?? 0);
+              const label = c ? c.Name || `#${c.Id}` : `#${sc.ClienteId}`;
+              return <Chip key={sc.Id} label={label} size="small" variant="outlined" />;
             })}
           </Stack>
         );
@@ -128,32 +126,32 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
     },
     {
       field: 'actions',
-      headerName: '',
-      width: 100,
+      headerName: 'Azioni',
+      width: 120,
       sortable: false,
       filterable: false,
       renderCell: (params) => (
-        <Stack direction="row" spacing={0.5}>
-          <IconButton size="small" onClick={() => onEdit(params.row.id)} title="Modifica">
+        <Box>
+          <IconButton size="small" onClick={() => onEdit(params.row.Id)} title="Modifica">
             <EditIcon fontSize="small" />
           </IconButton>
           <IconButton
             size="small"
             color="error"
-            onClick={() => setDeleteTarget(params.row.id)}
+            onClick={() => setDeleteTarget(params.row.Id)}
             title="Elimina"
           >
             <DeleteIcon fontSize="small" />
           </IconButton>
-        </Stack>
+        </Box>
       ),
     },
   ];
 
   const smallColumns: GridColDef<ScadenzeWithRelations>[] = [
-    { field: 'name', headerName: 'Nome', flex: 1, minWidth: 120 },
+    { field: 'Name', headerName: 'Nome', flex: 1, minWidth: 120 },
     {
-      field: 'date',
+      field: 'Date',
       headerName: 'Data',
       minWidth: 110,
       valueFormatter: (value: string | null) => formatDate(value),
@@ -166,13 +164,13 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
       filterable: false,
       renderCell: (params) => (
         <Stack direction="row" spacing={0.5}>
-          <IconButton size="small" onClick={() => onEdit(params.row.id)} title="Modifica">
+          <IconButton size="small" onClick={() => onEdit(params.row.Id)} title="Modifica">
             <EditIcon fontSize="small" />
           </IconButton>
           <IconButton
             size="small"
             color="error"
-            onClick={() => setDeleteTarget(params.row.id)}
+            onClick={() => setDeleteTarget(params.row.Id)}
             title="Elimina"
           >
             <DeleteIcon fontSize="small" />

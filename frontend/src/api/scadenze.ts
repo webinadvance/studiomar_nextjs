@@ -21,26 +21,26 @@ export async function getScadenze(filters?: ScadenzeFilters): Promise<ScadenzeWi
   if (filters?.date_start) params.date_start = filters.date_start;
   if (filters?.date_end) params.date_end = filters.date_end;
 
-  const { data } = await client.get<{ data: ScadenzeWithRelations[] }>('/v1/scadenze', { params });
-  return data.data;
+  const { data } = await client.get<ScadenzeWithRelations[]>('/v1/scadenze', { params });
+  return data;
 }
 
 export async function getScadenzaById(id: number): Promise<ScadenzeWithRelations> {
-  const { data } = await client.get<{ data: ScadenzeWithRelations }>(`/v1/scadenze/${id}`);
-  return data.data;
+  const { data } = await client.get<ScadenzeWithRelations>(`/v1/scadenze/${id}`);
+  return data;
 }
 
 export async function createScadenza(payload: ScadenzeCreateRequest): Promise<ScadenzeWithRelations> {
-  const { data } = await client.post<{ data: ScadenzeWithRelations }>('/v1/scadenze', payload);
-  return data.data;
+  const { data } = await client.post<ScadenzeWithRelations>('/v1/scadenze', payload);
+  return data;
 }
 
 export async function updateScadenza(
   id: number,
   payload: ScadenzeUpdateRequest,
 ): Promise<ScadenzeWithRelations> {
-  const { data } = await client.put<{ data: ScadenzeWithRelations }>(`/v1/scadenze/${id}`, payload);
-  return data.data;
+  const { data } = await client.put<ScadenzeWithRelations>(`/v1/scadenze/${id}`, payload);
+  return data;
 }
 
 export async function deleteScadenza(id: number, hard?: boolean): Promise<void> {

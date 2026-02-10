@@ -1,77 +1,77 @@
 // Shared TypeScript types between frontend and backend
 
 export interface Utente {
-  id: number;
-  email: string | null;
-  nome: string | null;
-  cognome: string | null;
-  is_active: boolean;
-  ins_date: string;
-  mod_date: string;
-  ins_user_id: number | null;
+  Id: number;
+  Email: string | null;
+  Nome: string | null;
+  Cognome: string | null;
+  IsActive: boolean;
+  InsDate: string;
+  ModDate: string;
+  InsUserId: number | null;
 }
 
 export interface Cliente {
-  id: number;
-  name: string;
-  is_active: boolean;
-  ins_date: string;
-  mod_date: string;
-  ins_user_id: number | null;
+  Id: number;
+  Name: string;
+  IsActive: boolean;
+  InsDate: string;
+  ModDate: string;
+  InsUserId: number | null;
 }
 
 export interface Scadenza {
-  id: number;
-  name: string;
-  rec: number; // Recurrence in months
-  date: string | null;
-  is_active: boolean;
-  ins_date: string;
-  mod_date: string;
-  ins_user_id: number | null;
-  calculated_date?: string; // Computed field (read-only)
+  Id: number;
+  Name: string;
+  Rec: number; // Recurrence in months
+  Date: string | null;
+  IsActive: boolean;
+  InsDate: string;
+  ModDate: string;
+  InsUserId: number | null;
+  CalculatedDate?: string; // Computed field (read-only)
 }
 
 export interface ScadenzeUtente {
-  id: number;
-  scadenza_id: number;
-  utente_id: number;
-  is_active: boolean;
-  ins_date: string;
-  mod_date: string;
-  ins_user_id: number | null;
+  Id: number;
+  ScadenzaId: number | null;
+  UtenteId: number | null;
+  IsActive: boolean;
+  InsDate: string;
+  ModDate: string;
+  InsUserId: number | null;
 }
 
 export interface ScadenzeClienti {
-  id: number;
-  scadenza_id: number;
-  cliente_id: number;
-  is_active: boolean;
-  ins_date: string;
-  mod_date: string;
-  ins_user_id: number | null;
+  Id: number;
+  ScadenzaId: number | null;
+  ClienteId: number | null;
+  IsActive: boolean;
+  InsDate: string;
+  ModDate: string;
+  InsUserId: number | null;
 }
 
 // Request/Response DTOs
 export interface ScadenzeCreateRequest {
-  name: string;
-  rec?: number;
-  date?: string;
-  utente_ids?: number[];
-  cliente_ids?: number[];
+  Name: string;
+  Rec?: number;
+  Date?: string;
+  UtenteIds?: number[];
+  ClienteIds?: number[];
 }
 
 export interface ScadenzeUpdateRequest {
-  name?: string;
-  rec?: number;
-  date?: string;
-  utente_ids?: number[];
-  cliente_ids?: number[];
+  Name?: string;
+  Rec?: number;
+  Date?: string;
+  UtenteIds?: number[];
+  ClienteIds?: number[];
 }
 
 export interface ScadenzeWithRelations extends Scadenza {
-  scadenze_utenti?: ScadenzeUtente[];
-  scadenze_clienti?: ScadenzeClienti[];
+  ScadenzeUtenti?: ScadenzeUtente[];
+  ScadenzeClienti?: ScadenzeClienti[];
 }
 
 export interface ApiResponse<T> {
