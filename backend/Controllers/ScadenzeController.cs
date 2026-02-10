@@ -119,19 +119,145 @@ public class ScadenzeController : ControllerBase
         return Ok(scadenza);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateScadenza(Scadenze scadenza)
+    public class CreateScadenzaRequest
     {
+        public string Name { get; set; } = string.Empty;
+        public int Rec { get; set; }
+        public string? Date { get; set; }
+        public List<int>? UtenteIds { get; set; }
+        public List<int>? ClienteIds { get; set; }
+    }
+
+    public class UpdateScadenzaRequest
+    {
+        public string? Name { get; set; }
+        public int? Rec { get; set; }
+        public string? Date { get; set; }
+        public List<int>? UtenteIds { get; set; }
+        public List<int>? ClienteIds { get; set; }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateScadenza([FromBody] CreateScadenzaRequest request)
+    {
+        var scadenza = new Scadenze
+        {
+            Name = request.Name,
+            Rec = request.Rec,
+            Date = !string.IsNullOrEmpty(request.Date) ? DateTime.Parse(request.Date).ToUniversalTime() : null,
+            IsActive = true,
+            InsDate = DateTime.UtcNow,
+            ModDate = DateTime.UtcNow
+        };
+
         _context.Scadenze.Add(scadenza);
         await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetScadenza), new { id = scadenza.Id }, scadenza);
+
+        // Add user relationships
+        if (request.UtenteIds != null && request.UtenteIds.Any())
+        {
+            foreach (var utenteId in request.UtenteIds)
+            {
+                _context.ScadenzeUtenti.Add(new ScadenzeUtenti
+                {
+                    ScadenzaId = scadenza.Id,
+                    UtenteId = utenteId,
+                    IsActive = true,
+                    InsDate = DateTime.UtcNow,
+                    ModDate = DateTime.UtcNow
+                });
+            }
+        }
+
+        // Add client relationships
+        if (request.ClienteIds != null && request.ClienteIds.Any())
+        {
+            foreach (var clienteId in request.ClienteIds)
+            {
+                _context.ScadenzeClienti.Add(new ScadenzeClienti
+                {
+                    ScadenzaId = scadenza.Id,
+                    ClienteId = clienteId,
+                    IsActive = true,
+                    InsDate = DateTime.UtcNow,
+                    ModDate = DateTime.UtcNow
+                });
+            }
+        }
+
+        await _context.SaveChangesAsync();
+
+        var response = new {
+            scadenza.Id,
+            scadenza.Name,
+            scadenza.Rec,
+            scadenza.Date,
+            scadenza.IsActive,
+            scadenza.InsDate,
+            scadenza.ModDate,
+            UtenteIds = request.UtenteIds ?? new List<int>(),
+            ClienteIds = request.ClienteIds ?? new List<int>()
+        };
+
+        return CreatedAtAction(nameof(GetScadenza), new { id = scadenza.Id }, response);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateScadenza(int id, Scadenze scadenza)
+    public async Task<IActionResult> UpdateScadenza(int id, [FromBody] UpdateScadenzaRequest request)
     {
-        if (id != scadenza.Id) return BadRequest();
-        _context.Entry(scadenza).State = EntityState.Modified;
+        var scadenza = await _context.Scadenze
+            .Include(s => s.ScadenzeUtenti)
+            .Include(s => s.ScadenzeClienti)
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (scadenza == null) return NotFound();
+
+        // Update basic fields
+        if (request.Name != null) scadenza.Name = request.Name;
+        if (request.Rec.HasValue) scadenza.Rec = request.Rec.Value;
+        if (request.Date != null) scadenza.Date = DateTime.Parse(request.Date).ToUniversalTime();
+        scadenza.ModDate = DateTime.UtcNow;
+
+        // Update user relationships
+        if (request.UtenteIds != null)
+        {
+            // Remove existing relationships
+            _context.ScadenzeUtenti.RemoveRange(scadenza.ScadenzeUtenti);
+
+            // Add new relationships
+            foreach (var utenteId in request.UtenteIds)
+            {
+                _context.ScadenzeUtenti.Add(new ScadenzeUtenti
+                {
+                    ScadenzaId = scadenza.Id,
+                    UtenteId = utenteId,
+                    IsActive = true,
+                    InsDate = DateTime.UtcNow,
+                    ModDate = DateTime.UtcNow
+                });
+            }
+        }
+
+        // Update client relationships
+        if (request.ClienteIds != null)
+        {
+            // Remove existing relationships
+            _context.ScadenzeClienti.RemoveRange(scadenza.ScadenzeClienti);
+
+            // Add new relationships
+            foreach (var clienteId in request.ClienteIds)
+            {
+                _context.ScadenzeClienti.Add(new ScadenzeClienti
+                {
+                    ScadenzaId = scadenza.Id,
+                    ClienteId = clienteId,
+                    IsActive = true,
+                    InsDate = DateTime.UtcNow,
+                    ModDate = DateTime.UtcNow
+                });
+            }
+        }
+
         await _context.SaveChangesAsync();
         return NoContent();
     }

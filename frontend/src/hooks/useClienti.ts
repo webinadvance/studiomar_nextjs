@@ -27,7 +27,7 @@ export function useCliente(id: number) {
 export function useCreateCliente() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { name: string }) => createCliente(data),
+    mutationFn: (data: { Name: string }) => createCliente(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['clienti'] });
     },
@@ -37,7 +37,7 @@ export function useCreateCliente() {
 export function useUpdateCliente() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: { name: string } }) =>
+    mutationFn: ({ id, data }: { id: number; data: { Name: string } }) =>
       updateCliente(id, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['clienti'] });

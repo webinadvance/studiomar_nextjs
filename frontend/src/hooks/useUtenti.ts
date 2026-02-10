@@ -26,7 +26,7 @@ export function useUtente(id: number) {
 export function useCreateUtente() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { nome?: string; cognome?: string; email?: string }) =>
+    mutationFn: (data: { Nome?: string; Cognome?: string; Email?: string }) =>
       createUtente(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['utenti'] });
@@ -42,7 +42,7 @@ export function useUpdateUtente() {
       data,
     }: {
       id: number;
-      data: { nome?: string; cognome?: string; email?: string };
+      data: { Nome?: string; Cognome?: string; Email?: string };
     }) => updateUtente(id, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['utenti'] });

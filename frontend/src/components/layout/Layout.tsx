@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Box, Container, AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, ListItemIcon, IconButton, Button } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import PersonIcon from '@mui/icons-material/Person';
 import EventNoteIcon from '@mui/icons-material/EventNote';
@@ -36,12 +36,6 @@ function Layout({ children }: LayoutProps) {
   const drawerContent = (
     <List>
       <ListItem component={RouterLink} to="/">
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItem>
-      <ListItem component={RouterLink} to="/scadenze">
         <ListItemIcon>
           <EventNoteIcon />
         </ListItemIcon>

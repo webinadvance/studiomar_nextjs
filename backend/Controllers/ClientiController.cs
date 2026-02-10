@@ -17,9 +17,17 @@ public class ClientiController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetClienti()
+    public async Task<IActionResult> GetClienti([FromQuery] string? filter)
     {
-        var clienti = await _context.Clienti.ToListAsync();
+        var query = _context.Clienti.AsQueryable();
+        
+        if (!string.IsNullOrWhiteSpace(filter))
+        {
+            var lowerFilter = filter.ToLower();
+            query = query.Where(c => c.Name != null && c.Name.ToLower().Contains(lowerFilter));
+        }
+        
+        var clienti = await query.ToListAsync();
         return Ok(clienti);
     }
 
@@ -31,19 +39,40 @@ public class ClientiController : ControllerBase
         return Ok(cliente);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateCliente(Clienti cliente)
+    public class CreateClienteRequest
     {
+        public string Name { get; set; } = string.Empty;
+    }
+
+    public class UpdateClienteRequest
+    {
+        public string Name { get; set; } = string.Empty;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateCliente([FromBody] CreateClienteRequest request)
+    {
+        var cliente = new Clienti
+        {
+            Name = request.Name,
+            IsActive = true,
+            InsDate = DateTime.UtcNow,
+            ModDate = DateTime.UtcNow
+        };
         _context.Clienti.Add(cliente);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetCliente), new { id = cliente.Id }, cliente);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateCliente(int id, Clienti cliente)
+    public async Task<IActionResult> UpdateCliente(int id, [FromBody] UpdateClienteRequest request)
     {
-        if (id != cliente.Id) return BadRequest();
-        _context.Entry(cliente).State = EntityState.Modified;
+        var cliente = await _context.Clienti.FindAsync(id);
+        if (cliente == null) return NotFound();
+        
+        cliente.Name = request.Name;
+        cliente.ModDate = DateTime.UtcNow;
+        
         await _context.SaveChangesAsync();
         return NoContent();
     }

@@ -3,7 +3,6 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import Dashboard from './pages/Dashboard';
 import UtentiPage from './pages/UtentiPage';
 import ClientiPage from './pages/ClientiPage';
 import ScadenzePage from './pages/ScadenzePage';
@@ -23,7 +22,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Layout>
-                    <Dashboard />
+                    <ScadenzePage />
                   </Layout>
                 </ProtectedRoute>
               }
@@ -44,16 +43,6 @@ function App() {
                 <ProtectedRoute>
                   <Layout>
                     <ClientiPage />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/scadenze"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <ScadenzePage />
                   </Layout>
                 </ProtectedRoute>
               }
