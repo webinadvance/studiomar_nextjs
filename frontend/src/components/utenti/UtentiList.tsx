@@ -3,7 +3,7 @@ import { Box, TextField, IconButton, Typography, CircularProgress, Alert } from 
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import type { Utente } from '../../api/utenti';
+import type { Utente } from '../../../../shared';
 import { useUtenti, useDeleteUtente } from '../../hooks/useUtenti';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -41,10 +41,10 @@ export default function UtentiList({ onEdit }: UtentiListProps) {
 
   const fullColumns = useMemo<GridColDef[]>(
     () => [
-      { field: 'id', headerName: 'ID', width: 80 },
-      { field: 'nome', headerName: 'Nome', flex: 1, minWidth: 150, valueGetter: (_value: unknown, row: Utente) => row.nome ?? '' },
-      { field: 'cognome', headerName: 'Cognome', flex: 1, minWidth: 150, valueGetter: (_value: unknown, row: Utente) => row.cognome ?? '' },
-      { field: 'email', headerName: 'Email', flex: 1.5, minWidth: 200, valueGetter: (_value: unknown, row: Utente) => row.email ?? '' },
+      { field: 'Id', headerName: 'ID', width: 80 },
+      { field: 'Nome', headerName: 'Nome', flex: 1, minWidth: 150, valueGetter: (_value: unknown, row: Utente) => row.Nome ?? '' },
+      { field: 'Cognome', headerName: 'Cognome', flex: 1, minWidth: 150, valueGetter: (_value: unknown, row: Utente) => row.Cognome ?? '' },
+      { field: 'Email', headerName: 'Email', flex: 1.5, minWidth: 200, valueGetter: (_value: unknown, row: Utente) => row.Email ?? '' },
       {
         field: 'actions',
         headerName: 'Azioni',
@@ -59,7 +59,7 @@ export default function UtentiList({ onEdit }: UtentiListProps) {
             <IconButton
               size="small"
               color="error"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row.Id)}
             >
               <DeleteIcon fontSize="small" />
             </IconButton>
@@ -71,8 +71,8 @@ export default function UtentiList({ onEdit }: UtentiListProps) {
   );
 
   const smallColumns: GridColDef[] = [
-    { field: 'nome', headerName: 'Nome', flex: 1, minWidth: 150, valueGetter: (_value: unknown, row: Utente) => row.nome ?? '' },
-    { field: 'cognome', headerName: 'Cognome', flex: 1, minWidth: 150, valueGetter: (_value: unknown, row: Utente) => row.cognome ?? '' },
+    { field: 'Nome', headerName: 'Nome', flex: 1, minWidth: 150, valueGetter: (_value: unknown, row: Utente) => row.Nome ?? '' },
+    { field: 'Cognome', headerName: 'Cognome', flex: 1, minWidth: 150, valueGetter: (_value: unknown, row: Utente) => row.Cognome ?? '' },
     {
       field: 'actions',
       headerName: 'Azioni',
@@ -87,7 +87,7 @@ export default function UtentiList({ onEdit }: UtentiListProps) {
           <IconButton
             size="small"
             color="error"
-            onClick={() => handleDelete(params.row.id)}
+            onClick={() => handleDelete(params.row.Id)}
           >
             <DeleteIcon fontSize="small" />
           </IconButton>
@@ -133,6 +133,7 @@ export default function UtentiList({ onEdit }: UtentiListProps) {
             pagination: { paginationModel: { pageSize: 10 } },
           }}
           disableRowSelectionOnClick
+          getRowId={(row) => row.Id}
         />
       )}
     </Box>

@@ -20,7 +20,7 @@ interface ClientiFormProps {
 }
 
 interface FormValues {
-  name: string;
+  Name: string;
 }
 
 export default function ClientiForm({ open, onClose, editId }: ClientiFormProps) {
@@ -36,22 +36,22 @@ export default function ClientiForm({ open, onClose, editId }: ClientiFormProps)
     reset,
     formState: { errors },
   } = useForm<FormValues>({
-    defaultValues: { name: '' },
+    defaultValues: { Name: '' },
   });
 
   // Pre-fill form when editing
   useEffect(() => {
     if (isEditing && cliente) {
-      reset({ name: cliente.name });
+      reset({ Name: cliente.Name });
     } else if (!isEditing) {
-      reset({ name: '' });
+      reset({ Name: '' });
     }
   }, [isEditing, cliente, reset]);
 
   // Reset form when dialog opens/closes
   useEffect(() => {
     if (!open) {
-      reset({ name: '' });
+      reset({ Name: '' });
       createMutation.reset();
       updateMutation.reset();
     }
@@ -95,9 +95,9 @@ export default function ClientiForm({ open, onClose, editId }: ClientiFormProps)
               label="Nome"
               fullWidth
               variant="outlined"
-              {...register('name', { required: 'Il nome è obbligatorio' })}
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              {...register('Name', { required: 'Il nome è obbligatorio' })}
+              error={!!errors.Name}
+              helperText={errors.Name?.message}
               disabled={isPending}
             />
           )}

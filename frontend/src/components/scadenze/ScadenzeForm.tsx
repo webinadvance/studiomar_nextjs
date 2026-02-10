@@ -34,11 +34,11 @@ interface ScadenzeFormProps {
 }
 
 interface FormValues {
-  name: string;
-  rec?: number;
-  date?: Date | null;
-  utente_ids: Utente[];
-  cliente_ids: Cliente[];
+  Name: string;
+  Rec?: number;
+  Date?: Date | null;
+  UtenteIds: Utente[];
+  ClienteIds: Cliente[];
 }
 
 export default function ScadenzeForm({ open, onClose, scadenza }: ScadenzeFormProps) {
@@ -57,38 +57,38 @@ export default function ScadenzeForm({ open, onClose, scadenza }: ScadenzeFormPr
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      name: '',
-      rec: undefined,
-      date: null,
-      utente_ids: [],
-      cliente_ids: [],
+      Name: '',
+      Rec: undefined,
+      Date: null,
+      UtenteIds: [],
+      ClienteIds: [],
     },
   });
 
   useEffect(() => {
     if (open) {
       if (isEdit && scadenza) {
-        const selectedUtenti = scadenza.scadenze_utenti
-          ? utenti.filter((u) => scadenza.scadenze_utenti?.some((su) => su.utente_id === u.id))
+        const selectedUtenti = scadenza.ScadenzeUtenti
+          ? utenti.filter((u) => scadenza.ScadenzeUtenti?.some((su) => su.UtenteId === u.Id))
           : [];
-        const selectedClienti = scadenza.scadenze_clienti
-          ? clienti.filter((c) => scadenza.scadenze_clienti?.some((sc) => sc.cliente_id === c.id))
+        const selectedClienti = scadenza.ScadenzeClienti
+          ? clienti.filter((c) => scadenza.ScadenzeClienti?.some((sc) => sc.ClienteId === c.Id))
           : [];
 
         reset({
-          name: scadenza.name,
-          rec: scadenza.rec || undefined,
-          date: scadenza.date ? parseISO(scadenza.date) : null,
-          utente_ids: selectedUtenti,
-          cliente_ids: selectedClienti,
+          Name: scadenza.Name,
+          Rec: scadenza.Rec || undefined,
+          Date: scadenza.Date ? parseISO(scadenza.Date) : null,
+          UtenteIds: selectedUtenti,
+          ClienteIds: selectedClienti,
         });
       } else {
         reset({
-          name: '',
-          rec: undefined,
-          date: null,
-          utente_ids: [],
-          cliente_ids: [],
+          Name: '',
+          Rec: undefined,
+          Date: null,
+          UtenteIds: [],
+          ClienteIds: [],
         });
       }
     }
@@ -96,15 +96,15 @@ export default function ScadenzeForm({ open, onClose, scadenza }: ScadenzeFormPr
 
   const onSubmit = (values: FormValues) => {
     const payload = {
-      name: values.name,
-      rec: values.rec ?? 0,
-      date: values.date ? values.date.toISOString().split('T')[0] : undefined,
-      utente_ids: values.utente_ids.map((u) => u.id),
-      cliente_ids: values.cliente_ids.map((c) => c.id),
+      Name: values.Name,
+      Rec: values.Rec ?? 0,
+      Date: values.Date ? values.Date.toISOString().split('T')[0] : undefined,
+      UtenteIds: values.UtenteIds.map((u) => u.Id),
+      ClienteIds: values.ClienteIds.map((c) => c.Id),
     };
 
     const mutation = isEdit && scadenza
-      ? updateMutation.mutateAsync({ id: scadenza.id, data: payload })
+      ? updateMutation.mutateAsync({ id: scadenza.Id, data: payload })
       : createMutation.mutateAsync(payload);
 
     mutation.then(() => {
@@ -131,16 +131,16 @@ export default function ScadenzeForm({ open, onClose, scadenza }: ScadenzeFormPr
               <TextField
                 label="Nome"
                 fullWidth
-                {...register('name', { required: 'Nome è obbligatorio' })}
-                error={!!errors.name}
-                helperText={errors.name?.message}
+                {...register('Name', { required: 'Nome è obbligatorio' })}
+                error={!!errors.Name}
+                helperText={errors.Name?.message}
               />
 
               <FormControl fullWidth>
                 <InputLabel>Ricorrenza</InputLabel>
                 <Select
                   label="Ricorrenza"
-                  {...register('rec', { valueAsNumber: true })}
+                  {...register('Rec', { valueAsNumber: true })}
                   defaultValue={0}
                 >
                   {recurrenceOptions.map((option) => (
@@ -152,7 +152,7 @@ export default function ScadenzeForm({ open, onClose, scadenza }: ScadenzeFormPr
               </FormControl>
 
               <Controller
-                name="date"
+                name="Date"
                 control={control}
                 render={({ field }) => (
                   <DatePicker
@@ -165,53 +165,53 @@ export default function ScadenzeForm({ open, onClose, scadenza }: ScadenzeFormPr
               />
 
               <Controller
-                name="utente_ids"
+                name="UtenteIds"
                 control={control}
                 render={({ field }) => (
                   <Autocomplete
                     multiple
                     options={utenti}
-                    getOptionLabel={(o) => [o.nome, o.cognome].filter(Boolean).join(' ') || `#${o.id}`}
+                    getOptionLabel={(o) => [o.Nome, o.Cognome].filter(Boolean).join(' ') || `#${o.Id}`}
                     value={field.value}
                     onChange={(_e, v) => field.onChange(v)}
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
                         <Chip
-                          label={[option.nome, option.cognome].filter(Boolean).join(' ') || `#${option.id}`}
+                          label={[option.Nome, option.Cognome].filter(Boolean).join(' ') || `#${option.Id}`}
                           size="small"
                           {...getTagProps({ index })}
-                          key={option.id}
+                          key={option.Id}
                         />
                       ))
                     }
                     renderInput={(params) => <TextField {...params} label="Utenti" fullWidth />}
-                    isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                    isOptionEqualToValue={(opt, val) => opt.Id === val.Id}
                   />
                 )}
               />
 
               <Controller
-                name="cliente_ids"
+                name="ClienteIds"
                 control={control}
                 render={({ field }) => (
                   <Autocomplete
                     multiple
                     options={clienti}
-                    getOptionLabel={(o) => o.name || `#${o.id}`}
+                    getOptionLabel={(o) => o.Name || `#${o.Id}`}
                     value={field.value}
                     onChange={(_e, v) => field.onChange(v)}
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
                         <Chip
-                          label={option.name || `#${option.id}`}
+                          label={option.Name || `#${option.Id}`}
                           size="small"
                           {...getTagProps({ index })}
-                          key={option.id}
+                          key={option.Id}
                         />
                       ))
                     }
                     renderInput={(params) => <TextField {...params} label="Clienti" fullWidth />}
-                    isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                    isOptionEqualToValue={(opt, val) => opt.Id === val.Id}
                   />
                 )}
               />

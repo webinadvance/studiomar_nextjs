@@ -213,6 +213,7 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
         initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
         disableRowSelectionOnClick
         getRowHeight={() => 'auto'}
+        getRowId={(row) => row.Id}
         sx={{
           '& .MuiDataGrid-cell': { py: 1 },
         }}

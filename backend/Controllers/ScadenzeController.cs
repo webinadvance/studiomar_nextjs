@@ -24,10 +24,7 @@ public class ScadenzeController : ControllerBase
         [FromQuery] string? date_start,
         [FromQuery] string? date_end)
     {
-        var query = _context.Scadenze
-            .Include(s => s.ScadenzeUtenti)
-            .Include(s => s.ScadenzeClienti)
-            .AsQueryable();
+        var query = _context.Scadenze.AsQueryable();
 
         if (cliente_id.HasValue)
         {
@@ -54,7 +51,20 @@ public class ScadenzeController : ControllerBase
             query = query.Where(s => s.Date <= endDate);
         }
 
-        var scadenze = await query.ToListAsync();
+        var scadenze = await query
+            .Select(s => new {
+                s.Id,
+                s.Name,
+                s.Date,
+                s.Rec,
+                s.InsDate,
+                s.ModDate,
+                s.InsUserId,
+                s.IsActive,
+                ScadenzeUtenti = s.ScadenzeUtenti.Select(su => new { su.Id, su.UtenteId, su.ScadenzaId, su.Utente.Nome, su.Utente.Cognome }),
+                ScadenzeClienti = s.ScadenzeClienti.Select(sc => new { sc.Id, sc.ClienteId, sc.ScadenzaId, sc.Cliente.Name })
+            })
+            .ToListAsync();
         return Ok(scadenze);
     }
 

@@ -49,8 +49,8 @@ export default function ScadenzeFilters({ onChange }: ScadenzeFiltersProps) {
     if (debouncedSearch) filters.filter = debouncedSearch;
     if (dateStart) filters.date_start = format(dateStart, 'yyyy-MM-dd');
     if (dateEnd) filters.date_end = format(dateEnd, 'yyyy-MM-dd');
-    if (selectedUtenti.length > 0) filters.utente_ids = selectedUtenti.map((u) => u.id);
-    if (selectedClienti.length > 0) filters.cliente_ids = selectedClienti.map((c) => c.id);
+    if (selectedUtenti.length > 0) filters.utente_ids = selectedUtenti.map((u) => u.Id);
+    if (selectedClienti.length > 0) filters.cliente_ids = selectedClienti.map((c) => c.Id);
     onChange(filters);
   }, [debouncedSearch, dateStart, dateEnd, selectedUtenti, selectedClienti, onChange]);
 
@@ -98,22 +98,22 @@ export default function ScadenzeFilters({ onChange }: ScadenzeFiltersProps) {
             size="small"
             options={utenti}
             loading={utentiLoading}
-            getOptionLabel={(o) => [o.nome, o.cognome].filter(Boolean).join(' ') || `Utente #${o.id}`}
+            getOptionLabel={(o) => [o.Nome, o.Cognome].filter(Boolean).join(' ') || `Utente #${o.Id}`}
             value={selectedUtenti}
             onChange={(_e, v) => setSelectedUtenti(v)}
             renderTags={(value, getTagProps) =>
               value.map((option, index) => (
                 <Chip
-                  label={[option.nome, option.cognome].filter(Boolean).join(' ') || `#${option.id}`}
+                  label={[option.Nome, option.Cognome].filter(Boolean).join(' ') || `#${option.Id}`}
                   size="small"
                   {...getTagProps({ index })}
-                  key={option.id}
+                  key={option.Id}
                 />
               ))
             }
             renderInput={(params) => <TextField {...params} label="Utenti" fullWidth />}
             sx={{ minWidth: { xs: '100%', sm: 220 } }}
-            isOptionEqualToValue={(opt, val) => opt.id === val.id}
+            isOptionEqualToValue={(opt, val) => opt.Id === val.Id}
           />
 
           <Autocomplete
@@ -121,22 +121,22 @@ export default function ScadenzeFilters({ onChange }: ScadenzeFiltersProps) {
             size="small"
             options={clienti}
             loading={clientiLoading}
-            getOptionLabel={(o) => o.name || `Cliente #${o.id}`}
+            getOptionLabel={(o) => o.Name || `Cliente #${o.Id}`}
             value={selectedClienti}
             onChange={(_e, v) => setSelectedClienti(v)}
             renderTags={(value, getTagProps) =>
               value.map((option, index) => (
                 <Chip
-                  label={option.name || `#${option.id}`}
+                  label={option.Name || `#${option.Id}`}
                   size="small"
                   {...getTagProps({ index })}
-                  key={option.id}
+                  key={option.Id}
                 />
               ))
             }
             renderInput={(params) => <TextField {...params} label="Clienti" fullWidth />}
             sx={{ minWidth: { xs: '100%', sm: 220 } }}
-            isOptionEqualToValue={(opt, val) => opt.id === val.id}
+            isOptionEqualToValue={(opt, val) => opt.Id === val.Id}
           />
 
           <Button variant="outlined" size="small" onClick={handleReset}>

@@ -53,7 +53,7 @@ export default function ClientiList({ onEdit, onAdd }: ClientiListProps) {
   const handleDeleteConfirm = async () => {
     if (!deleteTarget) return;
     try {
-      await deleteMutation.mutateAsync({ id: deleteTarget.id });
+      await deleteMutation.mutateAsync({ id: deleteTarget.Id });
     } finally {
       setDeleteTarget(null);
     }
@@ -63,10 +63,10 @@ export default function ClientiList({ onEdit, onAdd }: ClientiListProps) {
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const fullColumns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 80 },
-    { field: 'name', headerName: 'Nome', flex: 1, minWidth: 200 },
+    { field: 'Id', headerName: 'ID', width: 80 },
+    { field: 'Name', headerName: 'Nome', flex: 1, minWidth: 200 },
     {
-      field: 'is_active',
+      field: 'IsActive',
       headerName: 'Attivo',
       width: 100,
       renderCell: (params) =>
@@ -87,7 +87,7 @@ export default function ClientiList({ onEdit, onAdd }: ClientiListProps) {
           <IconButton
             size="small"
             color="primary"
-            onClick={() => onEdit(params.row.id)}
+            onClick={() => onEdit(params.row.Id)}
             aria-label="modifica"
           >
             <EditIcon />
@@ -106,7 +106,7 @@ export default function ClientiList({ onEdit, onAdd }: ClientiListProps) {
   ];
 
   const smallColumns: GridColDef[] = [
-    { field: 'name', headerName: 'Nome', flex: 1, minWidth: 150 },
+    { field: 'Name', headerName: 'Nome', flex: 1, minWidth: 150 },
     {
       field: 'actions',
       headerName: 'Azioni',
@@ -118,7 +118,7 @@ export default function ClientiList({ onEdit, onAdd }: ClientiListProps) {
           <IconButton
             size="small"
             color="primary"
-            onClick={() => onEdit(params.row.id)}
+            onClick={() => onEdit(params.row.Id)}
             aria-label="modifica"
           >
             <EditIcon />
@@ -177,6 +177,7 @@ export default function ClientiList({ onEdit, onAdd }: ClientiListProps) {
           }}
           autoHeight
           disableRowSelectionOnClick
+          getRowId={(row) => row.Id}
           sx={{
             '& .MuiDataGrid-cell:focus': { outline: 'none' },
           }}
@@ -188,7 +189,7 @@ export default function ClientiList({ onEdit, onAdd }: ClientiListProps) {
         <DialogTitle>Conferma eliminazione</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Sei sicuro di voler eliminare il cliente &quot;{deleteTarget?.name}&quot;?
+            Sei sicuro di voler eliminare il cliente &quot;{deleteTarget?.Name}&quot;?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

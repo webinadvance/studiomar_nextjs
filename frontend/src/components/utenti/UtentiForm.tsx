@@ -20,9 +20,9 @@ interface UtentiFormProps {
 }
 
 interface FormValues {
-  nome: string;
-  cognome: string;
-  email: string;
+  Nome: string;
+  Cognome: string;
+  Email: string;
 }
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,31 +39,31 @@ export default function UtentiForm({ open, onClose, utente }: UtentiFormProps) {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      nome: '',
-      cognome: '',
-      email: '',
+      Nome: '',
+      Cognome: '',
+      Email: '',
     },
   });
 
   useEffect(() => {
     if (open) {
       reset({
-        nome: utente?.nome ?? '',
-        cognome: utente?.cognome ?? '',
-        email: utente?.email ?? '',
+        Nome: utente?.Nome ?? '',
+        Cognome: utente?.Cognome ?? '',
+        Email: utente?.Email ?? '',
       });
     }
   }, [open, utente, reset]);
 
   const onSubmit = (values: FormValues) => {
     const payload: CreateUtenteData = {
-      nome: values.nome || undefined,
-      cognome: values.cognome || undefined,
-      email: values.email || undefined,
+      Nome: values.Nome || undefined,
+      Cognome: values.Cognome || undefined,
+      Email: values.Email || undefined,
     };
 
     const mutation = isEdit
-      ? updateMutation.mutateAsync({ id: utente.id, data: payload })
+      ? updateMutation.mutateAsync({ id: utente.Id, data: payload })
       : createMutation.mutateAsync(payload);
 
     mutation.then(() => {
@@ -82,22 +82,22 @@ export default function UtentiForm({ open, onClose, utente }: UtentiFormProps) {
             <TextField
               label="Nome"
               fullWidth
-              {...register('nome')}
+              {...register('Nome')}
             />
             <TextField
               label="Cognome"
               fullWidth
-              {...register('cognome')}
+              {...register('Cognome')}
             />
             <TextField
               label="Email"
               fullWidth
-              {...register('email', {
+              {...register('Email', {
                 validate: (value) =>
                   !value || EMAIL_REGEX.test(value) || 'Formato email non valido',
               })}
-              error={!!errors.email}
-              helperText={errors.email?.message}
+              error={!!errors.Email}
+              helperText={errors.Email?.message}
             />
           </Box>
         </DialogContent>
