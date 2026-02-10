@@ -72,7 +72,8 @@ public class ScadenzeController : ControllerBase
 
         if (!string.IsNullOrEmpty(filter))
         {
-            query = query.Where(s => s.Name.Contains(filter));
+            var lowerFilter = filter.ToLower();
+            query = query.Where(s => s.Name.ToLower().Contains(lowerFilter));
         }
 
         // Parse date filters for calculated date filtering
