@@ -1,26 +1,66 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { AuthProvider } from './context/AuthContext';
 import Layout from './components/layout/Layout';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import UtentiPage from './pages/UtentiPage';
 import ClientiPage from './pages/ClientiPage';
 import ScadenzePage from './pages/ScadenzePage';
+import LoginPage from './pages/LoginPage';
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <Layout>
+      <AuthProvider>
+        <Router>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/utenti" element={<UtentiPage />} />
-            <Route path="/clienti" element={<ClientiPage />} />
-            <Route path="/scadenze" element={<ScadenzePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Dashboard />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/utenti"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <UtentiPage />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/clienti"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <ClientiPage />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/scadenze"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <ScadenzePage />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
           </Routes>
-        </Layout>
-      </Router>
+        </Router>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

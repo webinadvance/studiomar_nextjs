@@ -1,13 +1,15 @@
 import { ReactNode, useState } from 'react';
-import { Box, Container, AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, ListItemIcon, IconButton } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Box, Container, AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, ListItemIcon, IconButton, Button } from '@mui/material';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import PersonIcon from '@mui/icons-material/Person';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useAuth } from '../../context/AuthContext';
 
 const drawerWidth = 240;
 
@@ -19,9 +21,16 @@ function Layout({ children }: LayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { logout, username } = useAuth();
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
   };
 
   const drawerContent = (
@@ -65,6 +74,21 @@ function Layout({ children }: LayoutProps) {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             Scadenze Management
           </Typography>
+          {username && (
+            <>
+              <Typography variant="body2" sx={{ mr: 2 }}>
+                {username}
+              </Typography>
+              <Button
+                color="inherit"
+                onClick={handleLogout}
+                startIcon={<LogoutIcon />}
+                size="small"
+              >
+                Logout
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
 
