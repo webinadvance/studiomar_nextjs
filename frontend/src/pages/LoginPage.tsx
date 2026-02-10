@@ -95,10 +95,10 @@ export default function LoginPage() {
             STUDIO<span style={{ color: theme.palette.primary.light }}>MAR</span>
           </Typography>
           <Typography variant="h5" sx={{ mb: 4, fontWeight: 300, opacity: 0.9 }}>
-            Professional Management Suite
+            Suite di Gestione Professionale
           </Typography>
           <Typography variant="body1" sx={{ opacity: 0.7, maxWidth: 480, mx: 'auto', lineHeight: 1.8 }}>
-            Streamline your deadlines, manage clients efficiently, and access powerful insights with our next-generation platform.
+            Semplifica la gestione delle scadenze, amministra i clienti in modo efficiente e accedi a insights potenti con la nostra piattaforma di nuova generazione.
           </Typography>
         </Box>
       </Grid>
@@ -134,10 +134,10 @@ export default function LoginPage() {
           </Box>
           
           <Typography component="h1" variant="h4" fontWeight="600" color="text.primary" gutterBottom>
-            Welcome Back
+            Bentornato
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-            Please sign in to continue
+            Accedi per continuare
           </Typography>
 
           {error && (
@@ -219,13 +219,7 @@ export default function LoginPage() {
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
             
-            <Grid container justifyContent="center">
-              <Grid item>
-                <Typography variant="caption" color="text.secondary">
-                   Demo Access: admin / admin
-                </Typography>
-              </Grid>
-            </Grid>
+
           </Box>
         </Box>
       </Grid>
