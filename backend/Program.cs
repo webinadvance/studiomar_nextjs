@@ -6,7 +6,9 @@ using System.Collections.Generic;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.UseUrls("http://*:5013");
+// Get port from environment variable (Docker uses 8080), default to 5013 for production
+var port = Environment.GetEnvironmentVariable("ASPNETCORE_HTTP_PORT") ?? "5013";
+builder.WebHost.UseUrls($"http://*:{port}");
 
 // Add services to the container.
 builder.Services.AddControllers()
