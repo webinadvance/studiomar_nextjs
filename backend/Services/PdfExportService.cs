@@ -22,13 +22,16 @@ public class PdfExportService
     {
         QuestPDF.Settings.License = LicenseType.Community;
 
+        // Use fallback fonts for Docker environment
+        QuestPDF.Settings.CheckIfAllTextGlyphsAreAvailable = false;
+
         var document = Document.Create(container =>
         {
             container.Page(page =>
             {
                 page.Size(PageSizes.A4.Landscape());
                 page.Margin(1, Unit.Centimetre);
-                page.DefaultTextStyle(x => x.FontSize(10).FontColor(Colors.Grey.Darken4));
+                page.DefaultTextStyle(x => x.FontSize(10).FontColor(Colors.Black).FontFamily("DejaVu Sans"));
 
                 page.Header().Element(c => ComposeHeader(c, dateStart, dateEnd));
                 page.Content().Element(c => ComposeContent(c, scadenze));

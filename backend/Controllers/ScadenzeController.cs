@@ -154,104 +154,85 @@ public class ScadenzeController : ControllerBase
         [FromQuery] string? date_start,
         [FromQuery] string? date_end)
     {
-        // Get all scadenze with related data
-        var query = _context.Scadenze
-            .Include(s => s.ScadenzeUtenti).ThenInclude(su => su.Utente)
-            .Include(s => s.ScadenzeClienti).ThenInclude(sc => sc.Cliente)
-            .AsQueryable();
+        // Use same query pattern as GetScadenze
+        var query = _context.Scadenze.AsQueryable();
 
-        // Apply cliente filter
         if (cliente_id.HasValue)
         {
             query = query.Where(s => s.ScadenzeClienti.Any(sc => sc.ClienteId == cliente_id.Value));
         }
 
-        // Apply utente filter
         if (utente_id.HasValue)
         {
             query = query.Where(s => s.ScadenzeUtenti.Any(su => su.UtenteId == utente_id.Value));
         }
 
-        // Apply name filter
         if (!string.IsNullOrEmpty(filter))
         {
             query = query.Where(s => s.Name.Contains(filter));
         }
 
-        var scadenze = await query.ToListAsync();
-
         // Parse date filters
         DateTime? filterDateStart = null;
         DateTime? filterDateEnd = null;
-
         if (!string.IsNullOrEmpty(date_start) && DateTime.TryParse(date_start, out var parsedStart))
         {
-            filterDateStart = parsedStart;
+            filterDateStart = parsedStart.Date;
         }
         if (!string.IsNullOrEmpty(date_end) && DateTime.TryParse(date_end, out var parsedEnd))
         {
-            filterDateEnd = parsedEnd;
+            filterDateEnd = parsedEnd.Date;
         }
 
-        // Calculate RO_SCADENZA_REALE (real due date with recurrence) and filter
-        var pdfItems = new List<ScadenzaPdfItem>();
+        // Fetch with projections (same as GetScadenze)
+        var scadenzeRaw = await query
+            .Select(s => new {
+                s.Name,
+                s.Date,
+                s.Rec,
+                Utenti = s.ScadenzeUtenti.Select(su => su.Utente.Cognome).Distinct().ToList(),
+                Clienti = s.ScadenzeClienti.Select(sc => sc.Cliente.Name).Distinct().ToList()
+            })
+            .ToListAsync();
+
+        // Calculate real date and filter (same logic as GetScadenze)
         var today = DateTime.UtcNow.Date;
-
-        foreach (var scadenza in scadenze)
-        {
-            if (!scadenza.Date.HasValue) continue;
-
-            // Calculate real due date with recurrence
-            var scadenzaReale = scadenza.Date.Value;
-
-            if (scadenza.Rec > 0)
-            {
-                // Keep adding REC months until the date is >= today
-                while (scadenzaReale.Date < today)
+        var pdfItems = scadenzeRaw
+            .Select(s => {
+                DateTime? scadenzaReale = s.Date;
+                if (s.Date.HasValue && s.Rec > 0)
                 {
-                    scadenzaReale = scadenzaReale.AddMonths(scadenza.Rec);
+                    var calcDate = s.Date.Value;
+                    while (calcDate.Date < today)
+                    {
+                        calcDate = calcDate.AddMonths(s.Rec);
+                    }
+                    scadenzaReale = calcDate;
                 }
-            }
-
-            // Filter by date range on the calculated real date
-            if (filterDateStart.HasValue && scadenzaReale.Date < filterDateStart.Value.Date)
+                return new {
+                    s.Name,
+                    ScadenzaReale = scadenzaReale,
+                    Utenti = string.Join(", ", s.Utenti),
+                    Clienti = string.Join(", ", s.Clienti)
+                };
+            })
+            .Where(s => {
+                if (!s.ScadenzaReale.HasValue) return false;
+                var realDate = s.ScadenzaReale.Value.Date;
+                if (filterDateStart.HasValue && realDate < filterDateStart.Value) return false;
+                if (filterDateEnd.HasValue && realDate > filterDateEnd.Value) return false;
+                return true;
+            })
+            .OrderBy(s => s.ScadenzaReale)
+            .Select((s, i) => new ScadenzaPdfItem
             {
-                continue;
-            }
-            if (filterDateEnd.HasValue && scadenzaReale.Date > filterDateEnd.Value.Date)
-            {
-                continue;
-            }
-
-            // Build clienti string (comma-separated names)
-            var clientiNames = scadenza.ScadenzeClienti
-                .Where(sc => sc.Cliente != null)
-                .Select(sc => sc.Cliente!.Name)
-                .Distinct()
-                .ToList();
-
-            // Build utenti string (comma-separated cognome)
-            var utentiNames = scadenza.ScadenzeUtenti
-                .Where(su => su.Utente != null)
-                .Select(su => su.Utente!.Cognome)
-                .Distinct()
-                .ToList();
-
-            pdfItems.Add(new ScadenzaPdfItem
-            {
-                Name = scadenza.Name,
-                Clienti = string.Join(", ", clientiNames),
-                Utenti = string.Join(", ", utentiNames),
-                ScadenzaReale = scadenzaReale
-            });
-        }
-
-        // Sort by real due date and assign index
-        pdfItems = pdfItems.OrderBy(x => x.ScadenzaReale).ToList();
-        for (int i = 0; i < pdfItems.Count; i++)
-        {
-            pdfItems[i].Index = i + 1;
-        }
+                Index = i + 1,
+                Name = s.Name,
+                Clienti = s.Clienti,
+                Utenti = s.Utenti,
+                ScadenzaReale = s.ScadenzaReale!.Value
+            })
+            .ToList();
 
         // Format date strings for header
         var dateStartStr = filterDateStart?.ToString("dd/MM/yyyy") ?? "--";
