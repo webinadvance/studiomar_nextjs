@@ -23,6 +23,10 @@ frontend/dist/
 frontend/build/
 frontend/tsconfig.tsbuildinfo
 
+# Compiled JS artifacts from tsc (source is TypeScript)
+frontend/src/**/*.js
+shared/**/*.js
+
 # IDE
 *.swp
 *.swo
