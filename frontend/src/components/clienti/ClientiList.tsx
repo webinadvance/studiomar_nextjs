@@ -24,10 +24,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface ClientiListProps {
   onEdit: (id: number) => void;
-  onAdd: () => void;
 }
 
-export default function ClientiList({ onEdit, onAdd }: ClientiListProps) {
+export default function ClientiList({ onEdit }: ClientiListProps) {
   const [filter, setFilter] = useState('');
   const [debouncedFilter, setDebouncedFilter] = useState('');
   const [deleteTarget, setDeleteTarget] = useState<Cliente | null>(null);
@@ -158,9 +157,6 @@ export default function ClientiList({ onEdit, onAdd }: ClientiListProps) {
           fullWidth
           sx={{ flexGrow: 1, maxWidth: { xs: '100%', sm: 400 } }}
         />
-        <Button variant="contained" onClick={onAdd}>
-          Nuovo Cliente
-        </Button>
       </Box>
 
       {isLoading ? (

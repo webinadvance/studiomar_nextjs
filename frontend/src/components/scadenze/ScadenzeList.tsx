@@ -10,7 +10,6 @@ import { useClienti } from '../../hooks/useClienti';
 import type { ScadenzeFilterValues } from './ScadenzeFilters';
 import type { ScadenzeWithRelations, Utente, Cliente } from '../../../../shared';
 import ConfirmDeleteDialog from '../common/ConfirmDeleteDialog';
-import { formatRecurrence } from '../../utils/formatRecurrence';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 

@@ -13,14 +13,11 @@ import {
   Chip,
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { parseISO } from 'date-fns';
 import { useCreateScadenza, useUpdateScadenza } from '../../hooks/useScadenze';
 import { useUtenti } from '../../hooks/useUtenti';
 import { useClienti } from '../../hooks/useClienti';
-import { recurrenceOptions } from '../../utils/formatRecurrence';
 import type { ScadenzeWithRelations, Utente, Cliente } from '../../../../shared';
 
 interface ScadenzeFormProps {

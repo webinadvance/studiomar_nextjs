@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import PageHeader from '../components/common/PageHeader';
 import UtentiList from '../components/utenti/UtentiList';
 import UtentiForm from '../components/utenti/UtentiForm';
 import type { Utente } from '../api/utenti';
@@ -26,16 +27,19 @@ export default function UtentiPage() {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
-        <Typography variant="h4">Utenti</Typography>
-        <Box sx={{ width: { xs: '100%', sm: 'auto' }, display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
+      <PageHeader
+        title="Utenti"
+        subtitle="Manage system users and permissions."
+        action={
           <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreate}>
             Nuovo Utente
           </Button>
-        </Box>
-      </Box>
+        }
+      />
 
-      <UtentiList onEdit={handleEdit} />
+      <Paper sx={{ p: 3, borderRadius: 3 }} elevation={0}>
+        <UtentiList onEdit={handleEdit} />
+      </Paper>
 
       <UtentiForm open={formOpen} onClose={handleClose} utente={editingUtente} />
     </Box>

@@ -1,10 +1,11 @@
 import { useState, useCallback } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import ScadenzeFilters, { type ScadenzeFilterValues } from '../components/scadenze/ScadenzeFilters';
 import ScadenzeList from '../components/scadenze/ScadenzeList';
 import ScadenzeForm from '../components/scadenze/ScadenzeForm';
+import PageHeader from '../components/common/PageHeader';
 import { useScadenza, useExportScadenzasPDF } from '../hooks/useScadenze';
 
 export default function ScadenzePage() {
@@ -48,26 +49,33 @@ export default function ScadenzePage() {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
-        <Typography variant="h4">Scadenze</Typography>
-        <Box sx={{ display: 'flex', gap: 2, width: { xs: '100%', sm: 'auto' }, justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
-          <Button
-            variant="outlined"
-            startIcon={<FileDownloadIcon />}
-            onClick={handleExportPDF}
-            disabled={exportMutation.isPending}
-          >
-            {exportMutation.isPending ? 'Esportazione...' : 'Esporta PDF'}
-          </Button>
-          <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreate}>
-            Nuova Scadenza
-          </Button>
-        </Box>
-      </Box>
+      <PageHeader 
+        title="Scadenze" 
+        subtitle="Manage upcoming deadlines and events."
+        action={
+          <>
+            <Button
+              variant="outlined"
+              startIcon={<FileDownloadIcon />}
+              onClick={handleExportPDF}
+              disabled={exportMutation.isPending}
+            >
+              {exportMutation.isPending ? 'Esportazione...' : 'Esporta PDF'}
+            </Button>
+            <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreate}>
+              Nuova Scadenza
+            </Button>
+          </>
+        }
+      />
 
-      <ScadenzeFilters onChange={setFilters} />
+      <Paper sx={{ p: 3, mb: 4, borderRadius: 3 }} elevation={0}>
+        <ScadenzeFilters onChange={setFilters} />
+      </Paper>
 
-      <ScadenzeList filters={filters} onEdit={handleEdit} />
+      <Paper sx={{ p: 0, borderRadius: 3, overflow: 'hidden', border: '1px solid rgba(0,0,0,0.08)' }} elevation={0}>
+         <ScadenzeList filters={filters} onEdit={handleEdit} />
+      </Paper>
 
       <ScadenzeForm open={formOpen} onClose={handleClose} scadenza={editingScadenza} isLoading={isScadenzaLoading} />
     </Box>

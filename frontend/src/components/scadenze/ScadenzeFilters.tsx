@@ -68,7 +68,7 @@ export default function ScadenzeFilters({ onChange }: ScadenzeFiltersProps) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box sx={{ mb: 3 }}>
+      <Box>
         <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
           <TextField
             label="Cerca"
