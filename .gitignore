@@ -9,3 +9,21 @@ dist
 .vscode/*.log
 *.swp
 /data.sql
+
+# .NET build artifacts
+backend/bin/
+backend/obj/
+backend-release/
+*.csproj.user
+.vs/
+*.DotSettings.user
+
+# Frontend build
+frontend/dist/
+frontend/build/
+frontend/tsconfig.tsbuildinfo
+
+# IDE
+*.swp
+*.swo
+*~

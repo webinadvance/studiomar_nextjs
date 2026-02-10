@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.UseUrls("http://*:8080");
+builder.WebHost.UseUrls("http://*:5013");
 
 // Add services to the container.
 builder.Services.AddControllers()
