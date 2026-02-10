@@ -180,7 +180,7 @@ function Layout({ children }: LayoutProps) {
                {menuItems.find(i => i.path === location.pathname)?.text || 'Dashboard'}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-               Welcome back, {username}
+               Bentornato, {username}
             </Typography>
           </Box>
 
