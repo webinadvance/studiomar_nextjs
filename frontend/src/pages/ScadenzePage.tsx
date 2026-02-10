@@ -49,9 +49,9 @@ export default function ScadenzePage() {
 
   return (
     <Box>
-      <PageHeader 
-        title="Scadenze" 
-        subtitle="Manage upcoming deadlines and events."
+       <PageHeader 
+         title="Scadenze" 
+         subtitle="Gestisci le scadenze imminenti e gli eventi."
         action={
           <>
             <Button

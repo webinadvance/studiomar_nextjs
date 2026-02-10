@@ -27,9 +27,9 @@ export default function UtentiPage() {
 
   return (
     <Box>
-      <PageHeader
-        title="Utenti"
-        subtitle="Manage system users and permissions."
+       <PageHeader
+         title="Utenti"
+         subtitle="Gestisci gli utenti e le autorizzazioni del sistema."
         action={
           <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreate}>
             Nuovo Utente

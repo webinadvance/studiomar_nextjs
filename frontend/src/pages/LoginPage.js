@@ -97,5 +97,5 @@ export default function LoginPage() {
                                         fontSize: '1rem',
                                         textTransform: 'none',
                                         boxShadow: theme.shadows[4]
-                                    }, disabled: isLoading, children: isLoading ? 'Signing in...' : 'Sign In' })] })] }) })] }));
+                                    }, disabled: isLoading, children: isLoading ? 'Accesso in corso...' : 'Accedi' })] })] }) })] }));
 }

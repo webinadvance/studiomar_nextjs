@@ -142,10 +142,10 @@ function Layout({ children }: LayoutProps) {
           border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`
         }}>
           <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)', display: 'block', mb: 1 }}>
-            Need Help?
+            Hai bisogno di aiuto?
           </Typography>
           <Typography variant="body2" sx={{ color: 'white', fontWeight: 500 }}>
-            Contact Support
+            Contatta il supporto
           </Typography>
         </Box>
       </Box>
@@ -185,7 +185,7 @@ function Layout({ children }: LayoutProps) {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Impostazioni">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt={username || "User"} src="/static/images/avatar/2.jpg" sx={{ bgcolor: theme.palette.secondary.main }}>
                   {username ? username.charAt(0).toUpperCase() : 'U'}
@@ -224,17 +224,15 @@ function Layout({ children }: LayoutProps) {
                  </Typography>
                </Box>
                <Divider />
-              <MenuItem onClick={handleCloseUserMenu}>
-                <ListItemIcon>
-                   <PersonIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>Profile</ListItemText>
-              </MenuItem>
+               <MenuItem onClick={handleCloseUserMenu}>
+                 <ListItemIcon>
+                    <PersonIcon fontSize="small" />
+                 </ListItemIcon>
+                 <ListItemText>Profilo</ListItemText>
+               </MenuItem>
               <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
-                <ListItemIcon>
                   <LogoutIcon fontSize="small" color="error" />
-                </ListItemIcon>
-                <ListItemText>Logout</ListItemText>
+                <ListItemText>Esci</ListItemText>
               </MenuItem>
             </Menu>
           </Box>

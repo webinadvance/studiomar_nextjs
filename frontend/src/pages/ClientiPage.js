@@ -20,5 +20,5 @@ export default function ClientiPage() {
         setFormOpen(false);
         setEditId(null);
     }, []);
-    return (_jsxs(Box, { children: [_jsx(PageHeader, { title: "Clienti", subtitle: "Manage your client database.", action: _jsx(Button, { variant: "contained", startIcon: _jsx(AddIcon, {}), onClick: handleAdd, children: "Nuovo Cliente" }) }), _jsx(Paper, { sx: { p: 3, borderRadius: 3 }, elevation: 0, children: _jsx(ClientiList, { onEdit: handleEdit }) }), _jsx(ClientiForm, { open: formOpen, onClose: handleClose, editId: editId })] }));
+    return (_jsxs(Box, { children: [_jsx(PageHeader, { title: "Clienti", subtitle: "Gestisci il tuo database di clienti.", action: _jsx(Button, { variant: "contained", startIcon: _jsx(AddIcon, {}), onClick: handleAdd, children: "Nuovo Cliente" }) }), _jsx(Paper, { sx: { p: 3, borderRadius: 3 }, elevation: 0, children: _jsx(ClientiList, { onEdit: handleEdit }) }), _jsx(ClientiForm, { open: formOpen, onClose: handleClose, editId: editId })] }));
 }

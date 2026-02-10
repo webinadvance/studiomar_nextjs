@@ -152,7 +152,7 @@ export default function LoginPage() {
               required
               fullWidth
               id="username"
-              label="Username"
+              label="Nome utente"
               name="username"
               autoComplete="username"
               autoFocus
@@ -189,7 +189,7 @@ export default function LoginPage() {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      aria-label="toggle password visibility"
+                      aria-label="mostra/nascondi password"
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
                     >
@@ -216,7 +216,7 @@ export default function LoginPage() {
               }}
               disabled={isLoading}
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? 'Accesso in corso...' : 'Accedi'}
             </Button>
             
 

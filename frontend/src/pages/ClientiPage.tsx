@@ -26,9 +26,9 @@ export default function ClientiPage() {
 
   return (
     <Box>
-      <PageHeader
-        title="Clienti"
-        subtitle="Manage your client database."
+       <PageHeader
+         title="Clienti"
+         subtitle="Gestisci il tuo database di clienti."
         action={
           <Button variant="contained" startIcon={<AddIcon />} onClick={handleAdd}>
             Nuovo Cliente
