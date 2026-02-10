@@ -1,0 +1,599 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bridge.SignalR</name>
+    </assembly>
+    <members>
+        <member name="T:Bridge.SignalR.ConnectionOptions">
+            <summary>
+            Represents the SignalR ConnectionOption object
+            </summary>
+        </member>
+        <member name="P:Bridge.SignalR.ConnectionOptions.PingInterval">
+            <summary>
+            PingInterval. (default: 300000)
+            </summary>
+        </member>
+        <member name="P:Bridge.SignalR.ConnectionOptions.WaitForPageLoad">
+            <summary>
+            If start is being called prior to page load and waitForPageLoad is
+            true the call of start is re-direct to the window load event.
+            (default: true)
+            </summary>
+        </member>
+        <member name="P:Bridge.SignalR.ConnectionOptions.Jsonp">
+            <summary>
+            If set to true, Jsonp will be used. (default: false)
+            </summary>
+        </member>
+        <member name="P:Bridge.SignalR.ConnectionOptions.Transport">
+            <summary>
+            allowed transport types.
+            </summary>
+        </member>
+        <member name="P:Bridge.SignalR.ConnectionOptions.WithCredentials">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Bridge.SignalR.ConnectionOptions.Callback">
+            <summary>
+            A callback function to execute when the connection has started
+            </summary>
+        </member>
+        <member name="T:Bridge.SignalR.ConnectionState">
+            <summary>
+            Represents a connection state of a SignalR connection.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.ConnectionState.Connecting">
+            <summary>
+            The connection state is connecting.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.ConnectionState.Connected">
+            <summary>
+            The connection state is connected.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.ConnectionState.Reconnecting">
+            <summary>
+            The connection state is reconnecting.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.ConnectionState.Disconnected">
+            <summary>
+            The connection state is disconnected.
+            </summary>
+        </member>
+        <member name="T:Bridge.SignalR.HubConnection">
+            <summary>
+            A Connection for interacting with Hubs.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubConnection.Logging">
+            <summary>
+            client-side logging.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubConnection.Id">
+            <summary>
+            The connection id for the connection.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubConnection.MessageId">
+            <summary>
+            The last message id for the connection.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubConnection.State">
+            <summary>
+            The current ConnectionState of the connection.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubConnection.QueryString">
+            <summary>
+            data send to the server when the client connects.
+            </summary>
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.CreateHubProxy(System.String)">
+            <summary>
+            Creates a new proxy object for the given hub connection that can be used to invoke
+            methods on server hubs and handle client method invocation requests from the server.
+            </summary>
+            <param name="hubName" type="String">
+            The name of the hub on the server to create the proxy for.
+            </param>
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.IsCrossDomain(System.String,System.Object)">
+            <summary>
+            Checks if url is cross domain
+            </summary>
+            <param name="url" type="String">The base URL</param>
+            <param name="against" type="Object">
+            An optional argument to compare the URL against, if not specified it will be set to
+            window.location. If specified it must contain a protocol and a host property.
+            </param>
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Start">
+            <summary>
+            Starts the connection
+            </summary>
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Start(Bridge.SignalR.ConnectionOptions)">
+            <summary>
+            Starts the connection
+            </summary>
+            <param name="options" type="Object">Options map</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Start(System.Action)">
+            <summary>Starts the connection</summary>
+            <param name="callback" type="Function">
+            A callback function to execute when the connection has started
+            </param>
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Start(Bridge.SignalR.ConnectionOptions,System.Action)">
+            <summary>
+            Starts the connection
+            </summary>
+            <param name="options" type="Object">Options map</param>
+            <param name="callback" type="Function">
+            A callback function to execute when the connection has started
+            </param>
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Stop">
+            <summary>
+            Stops listening
+            </summary>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Stop(System.Boolean)">
+            <summary>
+            Stops listening
+            </summary>
+            <param name="async" type="Boolean">
+            Whether or not to asynchronously abort the connection
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Stop(System.Boolean,System.Boolean)">
+            <summary>
+            Stops listening
+            </summary>
+            <param name="async" type="Boolean">
+            Whether or not to asynchronously abort the connection
+            </param>
+            <param name="notifyServer" type="Boolean">
+            Whether we want to notify the server that we are aborting the connection
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Starting(System.Action)">
+            <summary>
+            Adds a callback that will be invoked before anything is sent over the connection
+            </summary>
+            <param name="callback" type="Function">
+            A callback function to execute before the connection is fully instantiated.
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Send(System.String)">
+            <summary>
+            Sends data over the connection
+            </summary>
+            <param name="data" type="String">The data to send over the connection</param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Received(System.Action{System.Object})">
+            <summary>
+            Adds a callback that will be invoked after anything is received over the connection
+            </summary>
+            <param name="callback" type="Function">
+            A callback function to execute when any data is received on the connection
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.StateChanged(System.Action{Bridge.SignalR.StateChange})">
+            <summary>
+            Adds a callback that will be invoked when the connection state changes
+            </summary>
+            <param name="callback" type="Function">
+            A callback function to execute when the connection state changes
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Error(System.Action{System.String})">
+            <summary>
+            Adds a callback that will be invoked after an error occurs with the connection
+            </summary>
+            <param name="callback" type="Function">
+            A callback function to execute when an error occurs on the connection
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Disconnected(System.Action)">
+            <summary>
+            Adds a callback that will be invoked when the client disconnects
+            </summary>
+            <param name="callback" type="Function">
+            A callback function to execute when the connection is broken
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.ConnectionSlow(System.Action)">
+            <summary>
+            Adds a callback that will be invoked when the client detects a slow connection
+            </summary>
+            <param name="callback" type="Function">
+            A callback function to execute when the connection is slow
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Reconnecting(System.Action)">
+            <summary>
+            Adds a callback that will be invoked when the underlying transport begins reconnecting
+            </summary>
+            <param name="callback" type="Function">
+            A callback function to execute when the connection enters a reconnecting state
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="M:Bridge.SignalR.HubConnection.Reconnected(System.Action)">
+            <summary>
+            Adds a callback that will be invoked when the underlying transport reconnects
+            </summary>
+            <param name="callback" type="Function">
+            A callback function to execute when the connection is restored
+            </param>
+            <returns type="HubConnection" />
+        </member>
+        <member name="T:Bridge.SignalR.HubProxy">
+            <summary>
+            A client side proxy for a server side hub.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubProxy.State">
+            <summary>
+            State of the Connection
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubProxy.Connection">
+            <summary>
+            HubConnection used by the HubProxy
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubProxy.HubName">
+            <summary>
+            Name of the Hub
+            </summary>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.HasSubscriptions">
+            <summary>
+            Checks for registered event on the Hub. 
+            </summary>
+            <returns>Returns true if there is any registered event on the Hub.</returns>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``1(System.String,System.Action{``0})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``2(System.String,System.Action{``0,``1})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``3(System.String,System.Action{``0,``1,``2})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``4(System.String,System.Action{``0,``1,``2,``3})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``5(System.String,System.Action{``0,``1,``2,``3,``4})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``6(System.String,System.Action{``0,``1,``2,``3,``4,``5})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``7(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``8(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``9(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``10(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``11(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``12(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``13(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``14(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``15(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.On``16(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``1(System.String,System.Action{``0})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``2(System.String,System.Action{``0,``1})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.OOffn``3(System.String,System.Action{``0,``1,``2})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``4(System.String,System.Action{``0,``1,``2,``3})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``5(System.String,System.Action{``0,``1,``2,``3,``4})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``6(System.String,System.Action{``0,``1,``2,``3,``4,``5})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``7(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``8(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``9(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``10(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``11(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``12(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``13(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``14(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``15(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Off``16(System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
+            <param name="callback" type="Function">The callback to be invoked.</param>
+        </member>
+        <member name="M:Bridge.SignalR.HubProxy.Invoke(System.String,System.Object[])">
+            <summary>Invokes a server hub method with the given arguments.</summary>
+            <param name="methodName" type="String">The name of the server hub method.</param>
+            <param name="parameters"></param>
+        </member>
+        <member name="T:Bridge.SignalR.HubSettings">
+            <summary>
+            SignalR HubSettings.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubSettings.Logging">
+            <summary>
+            client-side logging. (default: false)
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubSettings.QueryString">
+            <summary>
+            data send to the server when the client connects.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.HubSettings.UseDefaultPath">
+            <summary>
+            use default Path for the SignalR hub. (default: true)
+            </summary>
+        </member>
+        <member name="T:Bridge.SignalR.SignalR">
+            <summary>
+            Bridge.SignalR Bindings used to get a connection to a Hub.
+            </summary>
+        </member>
+        <member name="M:Bridge.SignalR.SignalR.HubConnection">
+            <summary>
+            Creates a new hub connection.
+            </summary>
+            <returns type="HubConnection">SignalR HubConnection</returns>
+        </member>
+        <member name="M:Bridge.SignalR.SignalR.HubConnection(System.String)">
+            <summary>
+            Creates a new hub connection.
+            </summary>
+            <param name="url" type="String">The hub route url, defaults to "/signalr".</param>
+            <returns type="HubConnection">SignalR HubConnection</returns>
+        </member>
+        <member name="M:Bridge.SignalR.SignalR.HubConnection(System.String,Bridge.SignalR.HubSettings)">
+            <summary>
+            Creates a new hub connection.
+            </summary>
+            <param name="url" type="String">[Optional] The hub route url, defaults to "/signalr".</param>
+            <param name="options" type="HubSettings">
+            [Optional] Settings to use when creating the hubConnection.
+            </param>
+            <returns type="HubConnection">SignalR HubConnection</returns>
+        </member>
+        <member name="F:Bridge.SignalR.SignalR.Version">
+            <summary>
+            SignalR Version
+            </summary>
+        </member>
+        <member name="T:Bridge.SignalR.StateChange">
+            <summary>
+            Represents a change in the connection state.
+            </summary>
+        </member>
+        <member name="P:Bridge.SignalR.StateChange.OldState">
+            <summary>
+            The new state of the connection.
+            </summary>
+        </member>
+        <member name="P:Bridge.SignalR.StateChange.NewState">
+            <summary>
+            The old state of the connection.
+            </summary>
+        </member>
+        <member name="T:Bridge.SignalR.TransportType">
+            <summary>
+            SignalR Transport Types
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.TransportType.WebSockets">
+            <summary>
+            Represents a transport based on web socket.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.TransportType.ForeverFrame">
+            <summary>
+            Represents a transport based on forever frame.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.TransportType.ServerSentEvents">
+            <summary>
+            Represents a HTTP based transport used for server sent events.
+            </summary>
+        </member>
+        <member name="F:Bridge.SignalR.TransportType.LongPolling">
+            <summary>
+            Represents a transport based on long polling.
+            </summary>
+        </member>
+    </members>
+</doc>

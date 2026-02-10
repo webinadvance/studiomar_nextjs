@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Retyped.signalr-no-jquery</name>
+    </assembly>
+    <members>
+        <member name="M:Retyped.signalr_no_jquery.Connection.createHubProxy(System.String)">
+            <summary>
+            Creates a new proxy object for the given hub connection that can be used to invoke
+            methods on server hubs and handle client method invocation requests from the server.
+            </summary>
+            <param name = "hubName">The name of the hub on the server to create the proxy for.</param>
+        </member>
+        <member name="M:Retyped.signalr_no_jquery.Proxy.on(System.String,Retyped.signalr_no_jquery.Proxy.onFn)">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name = "eventName">The name of the hub event to register the callback for.</param>
+            <param name = "callback">The callback to be invoked.</param>
+        </member>
+        <member name="M:Retyped.signalr_no_jquery.Proxy.off(System.String,Retyped.signalr_no_jquery.Proxy.offFn)">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name = "eventName">The name of the hub event to unregister the callback for.</param>
+            <param name = "callback">The callback to be invoked.</param>
+        </member>
+        <member name="M:Retyped.signalr_no_jquery.Proxy.invoke(System.String,System.Object[])">
+            <summary>
+            Invokes a server hub method with the given arguments.
+            </summary>
+            <param name = "methodName">The name of the server hub method.</param>
+        </member>
+    </members>
+</doc>

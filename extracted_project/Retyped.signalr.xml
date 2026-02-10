@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Retyped.signalr</name>
+    </assembly>
+    <members>
+        <member name="M:Retyped.signalr.SignalR2.Hub.Proxy.on(System.String,Retyped.signalr.SignalR2.Hub.Proxy.onFn)">
+            <summary>
+            Wires up a callback to be invoked when a invocation request is received from the server hub.
+            </summary>
+            <param name = "eventName">The name of the hub event to register the callback for.</param>
+            <param name = "callback">The callback to be invoked.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Hub.Proxy.off(System.String,Retyped.signalr.SignalR2.Hub.Proxy.offFn)">
+            <summary>
+            Removes the callback invocation request from the server hub for the given event name.
+            </summary>
+            <param name = "eventName">The name of the hub event to unregister the callback for.</param>
+            <param name = "callback">The callback to be invoked.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Hub.Proxy.invoke(System.String,System.Object[])">
+            <summary>
+            Invokes a server hub method with the given arguments.
+            </summary>
+            <param name = "methodName">The name of the server hub method.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Hub.Connection.createHubProxy(System.String)">
+            <summary>
+            Creates a new proxy object for the given hub connection that can be used to invoke
+            methods on server hubs and handle client method invocation requests from the server.
+            </summary>
+            <param name = "hubName">The name of the hub on the server to create the proxy for.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Hub.HubCreator.Self">
+            <summary>
+            Creates a new hub connection.
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Hub.HubCreator.Self(System.String)">
+            <summary>
+            Creates a new hub connection.
+            </summary>
+            <param name = "url">[Optional] The hub route url, defaults to "/signalr".</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Hub.HubCreator.Self(System.String,Retyped.signalr.SignalR2.Hub.Options)">
+            <summary>
+            Creates a new hub connection.
+            </summary>
+            <param name = "url">[Optional] The hub route url, defaults to "/signalr".</param>
+            <param name = "options">[Optional] Settings to use when creating the hubConnection.</param>
+        </member>
+        <member name="P:Retyped.signalr.SignalR2.Connection.disconnectTimeout">
+            <summary>
+            This should be set by the server in response to the negotiate request (30s default)
+            </summary>
+        </member>
+        <member name="P:Retyped.signalr.SignalR2.Connection.reconnectWindow">
+            <summary>
+            This should be set by the server in response to the negotiate request
+            </summary>
+        </member>
+        <member name="P:Retyped.signalr.SignalR2.Connection.keepAliveWarnAt">
+            <summary>
+            Warn user of slow connection if we breach the X% mark of the keep alive timeout
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.start">
+            <summary>
+            Starts the connection
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.start(System.Action)">
+            <summary>
+            Starts the connection
+            </summary>
+            <param name = "callback">A callback function to execute when the connection has started</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.start(Retyped.signalr.SignalR2.ConnectionOptions)">
+            <summary>
+            Starts the connection
+            </summary>
+            <param name = "options">Options map</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.start(Retyped.signalr.SignalR2.ConnectionOptions,System.Action)">
+            <summary>
+            Starts the connection
+            </summary>
+            <param name = "options">Options map</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.starting(System.Action)">
+            <summary>
+            Adds a callback that will be invoked before anything is sent over the connection
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.send(System.String)">
+            <summary>
+            Sends data over the connection
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.received(Retyped.signalr.SignalR2.Connection.receivedFn)">
+            <summary>
+            Adds a callback that will be invoked after anything is received over the connection
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.stateChanged(Retyped.signalr.SignalR2.Connection.stateChangedFn)">
+            <summary>
+            Adds a callback that will be invoked when the connection state changes
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.error(Retyped.signalr.SignalR2.Connection.errorFn)">
+            <summary>
+            Adds a callback that will be invoked after an error occurs with the connection
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.disconnected(System.Action)">
+            <summary>
+            Adds a callback that will be invoked when the client disconnects
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.connectionSlow(System.Action)">
+            <summary>
+            Adds a callback that will be invoked when the client detects a slow connection
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.reconnecting(System.Action)">
+            <summary>
+            Adds a callback that will be invoked when the underlying transport begins reconnecting
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.reconnected(System.Action)">
+            <summary>
+            Adds a callback that will be invoked when the underlying transport reconnects
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.stop">
+            <summary>
+            Stops listening
+            </summary>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.stop(System.Boolean)">
+            <summary>
+            Stops listening
+            </summary>
+            <param name = "async">Whether or not to asynchronously abort the connection</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.stop(System.Boolean,System.Boolean)">
+            <summary>
+            Stops listening
+            </summary>
+            <param name = "async">Whether or not to asynchronously abort the connection</param>
+            <param name = "notifyServer">Whether we want to notify the server that we are aborting the connection</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.isCrossDomain(System.String)">
+            <summary>
+            Checks if url is cross domain
+            </summary>
+            <param name = "url">The base URL</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.isCrossDomain(System.String,Bridge.Union{Retyped.dom.Location,Retyped.signalr.SignalR2.SimplifyLocation})">
+            <summary>
+            Checks if url is cross domain
+            </summary>
+            <param name = "url">The base URL</param>
+            <param name = "against">An optional argument to compare the URL against, if not specified it will be set to window.location. If specified it must contain a protocol and a host property.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.isCrossDomain(System.String,Retyped.dom.Location)">
+            <summary>
+            Checks if url is cross domain
+            </summary>
+            <param name = "url">The base URL</param>
+            <param name = "against">An optional argument to compare the URL against, if not specified it will be set to window.location. If specified it must contain a protocol and a host property.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR2.Connection.isCrossDomain(System.String,Retyped.signalr.SignalR2.SimplifyLocation)">
+            <summary>
+            Checks if url is cross domain
+            </summary>
+            <param name = "url">The base URL</param>
+            <param name = "against">An optional argument to compare the URL against, if not specified it will be set to window.location. If specified it must contain a protocol and a host property.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR.Self(System.String)">
+            <summary>
+            Creates a new SignalR connection for the given url
+            </summary>
+            <param name = "url">The URL of the long polling endpoint</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR.Self(System.String,Bridge.Union{System.String,Retyped.Primitive.Object})">
+            <summary>
+            Creates a new SignalR connection for the given url
+            </summary>
+            <param name = "url">The URL of the long polling endpoint</param>
+            <param name = "queryString">[Optional] Custom querystring parameters to add to the connection URL. If an object, every non-function member will be added to the querystring. If a string, it's added to the QS as specified.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR.Self(System.String,System.String)">
+            <summary>
+            Creates a new SignalR connection for the given url
+            </summary>
+            <param name = "url">The URL of the long polling endpoint</param>
+            <param name = "queryString">[Optional] Custom querystring parameters to add to the connection URL. If an object, every non-function member will be added to the querystring. If a string, it's added to the QS as specified.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR.Self(System.String,Retyped.Primitive.Object)">
+            <summary>
+            Creates a new SignalR connection for the given url
+            </summary>
+            <param name = "url">The URL of the long polling endpoint</param>
+            <param name = "queryString">[Optional] Custom querystring parameters to add to the connection URL. If an object, every non-function member will be added to the querystring. If a string, it's added to the QS as specified.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR.Self(System.String,Bridge.Union{System.String,Retyped.Primitive.Object},System.Boolean)">
+            <summary>
+            Creates a new SignalR connection for the given url
+            </summary>
+            <param name = "url">The URL of the long polling endpoint</param>
+            <param name = "queryString">[Optional] Custom querystring parameters to add to the connection URL. If an object, every non-function member will be added to the querystring. If a string, it's added to the QS as specified.</param>
+            <param name = "logging">[Optional] A flag indicating whether connection logging is enabled to the browser console/log. Defaults to false.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR.Self(System.String,System.String,System.Boolean)">
+            <summary>
+            Creates a new SignalR connection for the given url
+            </summary>
+            <param name = "url">The URL of the long polling endpoint</param>
+            <param name = "queryString">[Optional] Custom querystring parameters to add to the connection URL. If an object, every non-function member will be added to the querystring. If a string, it's added to the QS as specified.</param>
+            <param name = "logging">[Optional] A flag indicating whether connection logging is enabled to the browser console/log. Defaults to false.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR.Self(System.String,Retyped.Primitive.Object,System.Boolean)">
+            <summary>
+            Creates a new SignalR connection for the given url
+            </summary>
+            <param name = "url">The URL of the long polling endpoint</param>
+            <param name = "queryString">[Optional] Custom querystring parameters to add to the connection URL. If an object, every non-function member will be added to the querystring. If a string, it's added to the QS as specified.</param>
+            <param name = "logging">[Optional] A flag indicating whether connection logging is enabled to the browser console/log. Defaults to false.</param>
+        </member>
+        <member name="M:Retyped.signalr.SignalR.noConflict">
+            <summary>
+            Reinstates the original value of $.connection and returns the signalR object for manual assignment.
+            </summary>
+        </member>
+        <member name="P:Retyped.signalr.SignalR.version">
+            <summary>
+            Current SignalR version.
+            </summary>
+        </member>
+    </members>
+</doc>

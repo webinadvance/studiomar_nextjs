@@ -1,0 +1,25 @@
+﻿Questo è un messaggio automatico
+<BR>
+<BR>
+Ciao [[PEOPLE.FIRSTNAME]] [[PEOPLE.LASTNAME]],
+<BR>
+<BR>
+Benvenuto in <B>[[CLUB.NAME]]</B>
+<BR>
+<BR>
+Puoi verirficare il tuo profilo su
+<BR>
+<BR>
+<a href="https://studiomar.kymera.cloud/Login.aspx?g=[[PEOPLE.GUID]]">https://studiomar.kymera.cloud/</a>
+<BR>
+<BR>
+Le tue credenziali:
+<BR>
+<BR>
+username: <B>[[PEOPLE.PHONE_NUMBER]]</B>
+<BR>
+password: <B>[[PEOPLE.PASSWORD]]</B>
+<BR>
+<BR>
+lo Staff
+0332 650621

@@ -1,0 +1,29 @@
+[
+  {
+    "outputFileName": "Scripts/bundle.js",
+    "inputFiles": [
+      "Scripts/polyfill.js",
+      "Scripts/promise.min.js",
+      "Scripts/validation.js",
+      "Scripts/cookie.js",
+      "Scripts/fetch.min.js",
+      "Scripts/page.min.js",
+      "Scripts/moment-with-locales.min.js",
+      "Scripts/jquery-3.3.1.min.js",
+      "Scripts/jquery.signalR-2.3.0.min.js",
+      "Scripts/jquery.richtext.min.js",
+      "Scripts/notify.js",
+      "Scripts/sortable.min.js",
+      "bridge/bridge.min.js",
+      "bridge/newtonsoft.json.min.js"
+    ]
+  },
+  {
+    "outputFileName": "Styles/boundle.css",
+    "inputFiles": [
+      "Styles/normalize.min.css",
+      "Styles/richtext.min.css",
+      "Styles/animate.min.css"
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+﻿Questo è un messaggio automatico
+<BR>
+<BR>
+Ciao [[TRAINER_NAME]],
+<BR>
+<BR>
+[[PEOPLE_NAME]] ha appena fatto una prenotazione ad un tuo corso:
+<BR>
+<BR>
+[[RO_COURSE_NAME]]
+<BR>
+<BR>
+[[DATE]]
+<BR>
+<BR>
+Puoi verificare lo stato delle prenotazioni su
+<BR>
+<BR>
+<a href="https://studiomar.kymera.cloud/">https://studiomar.kymera.cloud/</a>
+<BR>
+<BR>
+nella sezione CORSI

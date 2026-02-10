@@ -1,0 +1,42 @@
+﻿{
+  "lang": "it",
+  "name": "KYMERA.cloud",
+  "description": "KYMERA.cloud - per la gestione del tuo mondo fitness",
+  "short_name": "KYMERA.cloud",
+  "icons": [
+    {
+      "src": "/Images/logoK_SQUARED.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/Images/logoK_SQUARED.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/Images/logoK_SQUARED.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/Images/logoK_SQUARED.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/Images/logoK_SQUARED.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/Images/logoK_SQUARED.ico",
+      "sizes": "72x72 96x96 128x128 256x256"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#000000",
+  "theme_color": "#FF3D00",
+  "display": "fullscreen",
+  "orientation": "portrait"
+}

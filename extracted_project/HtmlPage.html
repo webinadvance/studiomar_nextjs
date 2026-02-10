@@ -1,0 +1,42 @@
+﻿<html>
+<body>
+<script language=javascript>
+    var txt='+393497514102';
+
+    var re1='(\\+)';	// Any Single Character 1
+    var re2='(3)';	// Any Single Character 2
+    var re3='(9)';	// Any Single Character 3
+    var re4='(\\d)';	// Any Single Digit 1
+    var re5='(\\d)';	// Any Single Digit 2
+    var re6='(\\d)';	// Any Single Digit 3
+    var re7='(\\d)';	// Any Single Digit 4
+    var re8='(\\d)';	// Any Single Digit 5
+    var re9='(\\d)';	// Any Single Digit 6
+    var re10='(\\d)';	// Any Single Digit 7
+    var re11='(\\d)';	// Any Single Digit 8
+    var re12='(\\d)';	// Any Single Digit 9
+    var re13='(\\d)';	// Any Single Digit 10
+
+    var p = new RegExp(re1 + re2 + re3 + re4 + re5 + re6 + re7 + re8 + re9 + re10 + re11 + re12 + re13, ["i"]);
+    console.log(p);
+    var m = p.exec(txt);
+    if (m != null)
+    {
+        var c1=m[1];
+        var c2=m[2];
+        var c3=m[3];
+        var d1=m[4];
+        var d2=m[5];
+        var d3=m[6];
+        var d4=m[7];
+        var d5=m[8];
+        var d6=m[9];
+        var d7=m[10];
+        var d8=m[11];
+        var d9=m[12];
+        var d10=m[13];
+        document.write("("+c1.replace(/</,"&lt;")+")"+"("+c2.replace(/</,"&lt;")+")"+"("+c3.replace(/</,"&lt;")+")"+"("+d1.replace(/</,"&lt;")+")"+"("+d2.replace(/</,"&lt;")+")"+"("+d3.replace(/</,"&lt;")+")"+"("+d4.replace(/</,"&lt;")+")"+"("+d5.replace(/</,"&lt;")+")"+"("+d6.replace(/</,"&lt;")+")"+"("+d7.replace(/</,"&lt;")+")"+"("+d8.replace(/</,"&lt;")+")"+"("+d9.replace(/</,"&lt;")+")"+"("+d10.replace(/</,"&lt;")+")"+"\n");
+    }
+</script>
+</body>
+</html>

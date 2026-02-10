@@ -1,0 +1,2 @@
+// Shared TypeScript types between frontend and backend
+export {};

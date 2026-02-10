@@ -1,0 +1,22 @@
+{
+  "name": "studiomar-scadenze",
+  "version": "1.0.0",
+  "description": "Scadenze Management System - React + Node.js Migration",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter ./backend dev & pnpm --filter ./frontend dev",
+    "build": "pnpm --filter ./backend build && pnpm --filter ./frontend build",
+    "preview": "pnpm --filter ./frontend preview",
+    "db:migrate": "pnpm --filter ./backend prisma migrate dev",
+    "db:push": "pnpm --filter ./backend prisma db push",
+    "db:seed": "pnpm --filter ./backend prisma db seed",
+    "db:studio": "pnpm --filter ./backend prisma studio"
+  },
+  "dependencies": {
+    "html2pdf.js": "^0.14.0"
+  }
+}

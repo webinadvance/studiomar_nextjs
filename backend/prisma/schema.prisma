@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Utente {
+  id        Int     @id @default(autoincrement())
+  email     String?
+  nome      String?
+  cognome   String?
+  is_active Boolean @default(true)
+
+  ins_date  DateTime @default(now())
+  mod_date  DateTime @updatedAt
+  ins_user_id Int?
+
+  scadenze_utenti ScadenzeUtente[]
+
+  @@map("utenti")
+}
+
+model Cliente {
+  id        Int     @id @default(autoincrement())
+  name      String
+  is_active Boolean @default(true)
+
+  ins_date  DateTime @default(now())
+  mod_date  DateTime @updatedAt
+  ins_user_id Int?
+
+  scadenze_clienti ScadenzeClienti[]
+
+  @@map("clienti")
+}
+
+model Scadenza {
+  id        Int     @id @default(autoincrement())
+  name      String
+  rec       Int     @default(0) // Recurrence in months (0 = non-recurring)
+  date      DateTime?
+  is_active Boolean @default(true)
+
+  ins_date  DateTime @default(now())
+  mod_date  DateTime @updatedAt
+  ins_user_id Int?
+
+  scadenze_utenti ScadenzeUtente[]
+  scadenze_clienti ScadenzeClienti[]
+
+  @@map("scadenze")
+}
+
+model ScadenzeUtente {
+  id        Int     @id @default(autoincrement())
+  scadenza_id Int
+  utente_id Int
+  is_active Boolean @default(true)
+
+  ins_date  DateTime @default(now())
+  mod_date  DateTime @updatedAt
+  ins_user_id Int?
+
+  scadenza Scadenza @relation(fields: [scadenza_id], references: [id], onDelete: Cascade)
+  utente   Utente   @relation(fields: [utente_id], references: [id], onDelete: Cascade)
+
+  @@unique([scadenza_id, utente_id])
+  @@map("scadenze_utenti")
+}
+
+model ScadenzeClienti {
+  id        Int     @id @default(autoincrement())
+  scadenza_id Int
+  cliente_id Int
+  is_active Boolean @default(true)
+
+  ins_date  DateTime @default(now())
+  mod_date  DateTime @updatedAt
+  ins_user_id Int?
+
+  scadenza Scadenza @relation(fields: [scadenza_id], references: [id], onDelete: Cascade)
+  cliente  Cliente  @relation(fields: [cliente_id], references: [id], onDelete: Cascade)
+
+  @@unique([scadenza_id, cliente_id])
+  @@map("scadenze_clienti")
+}

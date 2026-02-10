@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+
+    <title>K Y M E R A</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="theme-color" content="#FF3D00">
+
+    <link rel="icon" href="/Images/logoK_SQUARED.png">
+    <link rel="apple-touch-icon" href="/Images/logoK_SQUARED.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/Images/logoK_SQUARED.ico" />
+    <link rel="icon" type="image/x-icon" href="/Images/logoK_SQUARED.ico" />
+
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-TileImage" content="/Images/logoK_SQUARED.png">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="manifest" href="/Manifest.aspx?manifest=manifest.json" />
+
+    <link />
+</head>
+<body>
+
+    <script>
+        var el = document.createElement('link');
+        el.rel = 'stylesheet';
+        el.href = '/Styles/boundle.min.css';
+        el.type = 'text/css';
+        var dfr = document.getElementsByTagName('link')[0];
+        dfr.parentNode.insertBefore(el, dfr);
+
+        var el = document.createElement('link');
+        el.rel = 'stylesheet';
+        el.href = '/Styles/Main.min.css';
+        el.type = 'text/css';
+        var dfr = document.getElementsByTagName('link')[0];
+        dfr.parentNode.insertBefore(el, dfr);
+
+        var el = document.createElement('link');
+        el.rel = 'stylesheet';
+        el.href = 'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i';
+        el.type = 'text/css';
+        var dfr = document.getElementsByTagName('link')[0];
+        dfr.parentNode.insertBefore(el, dfr);
+
+        var el = document.createElement('link');
+        el.rel = 'stylesheet';
+        el.href = 'https://use.fontawesome.com/releases/v5.0.13/css/all.css';
+        el.integrity = 'sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp';
+        el.crossOrigin = 'anonymous';
+        el.type = 'text/css';
+        var dfr = document.getElementsByTagName('link')[0];
+        dfr.parentNode.insertBefore(el, dfr);
+    </script>
+
+    <script>
+        Date.prototype.toJSON = function () { return moment(this).format(); }
+    </script>
+
+    <!--<script type="text/javascript">
+        if (navigator.serviceWorker.controller) {
+        } else {
+
+            navigator.serviceWorker.register('/sw.js', {
+                scope: '/'
+            }).then(function (reg) {
+            });
+        }
+    </script>-->
+    <!--<script>
+        // make the whole serviceworker process into a promise so later on we can
+        // listen to it and in case new content is available a toast will be shown
+        window.isUpdateAvailable = new Promise(function (resolve, reject) {
+            // lazy way of disabling service workers while developing
+           if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1) {
+                // register service worker file
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => {
+                        reg.onupdatefound = () => {
+                            const installingWorker = reg.installing;
+                            installingWorker.onstatechange = () => {
+                                switch (installingWorker.state) {
+                                    case 'installed':
+                                        if (navigator.serviceWorker.controller) {
+                                            // new update available
+                                            resolve(true);
+                                        } else {
+                                            // no update available
+                                            resolve(false);
+                                        }
+                                        break;
+                                }
+                            };
+                        };
+                    })
+                    .catch(err => console.error('[SW ERROR]', err));
+            }
+        });
+
+        window['isUpdateAvailable']
+            .then(isAvailable => {
+                if (isAvailable) {
+                    //window.alert("è disponibile una nuova versione! Chiudi e riapri KYMERA.cloud per installare gli aggiornamenti!");
+                    //cache.delete();
+                    //window.location.reload(true);
+                }
+            });
+
+    </script>-->
+
+    <script>
+        navigator.serviceWorker.getRegistrations().then(function (registrations) {
+            for (let registration of registrations) {
+                registration.unregister();
+            }
+        })
+    </script>
+
+    <script src="/Scripts/bundle.min.js" defer></script>
+    <script data-main="/bridge/Client.min.js" src="/Scripts/require.min.js" defer></script>
+
+    <noscript>
+        <!-- anchor linking to external file -->
+        <a href="https://www.mozilla.com/">External Link</a>
+    </noscript>
+
+</body>
+</html>
