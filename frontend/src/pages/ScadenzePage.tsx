@@ -12,7 +12,7 @@ export default function ScadenzePage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [formOpen, setFormOpen] = useState(false);
 
-  const { data: editingScadenza } = useScadenza(editingId ?? 0);
+  const { data: editingScadenza, isLoading: isScadenzaLoading } = useScadenza(editingId ?? 0);
   const exportMutation = useExportScadenzasPDF();
 
   const handleCreate = useCallback(() => {
@@ -69,7 +69,7 @@ export default function ScadenzePage() {
 
       <ScadenzeList filters={filters} onEdit={handleEdit} />
 
-      <ScadenzeForm open={formOpen} onClose={handleClose} scadenza={editingScadenza ?? null} />
+      <ScadenzeForm open={formOpen} onClose={handleClose} scadenza={editingScadenza} isLoading={isScadenzaLoading} />
     </Box>
   );
 }

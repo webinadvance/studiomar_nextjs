@@ -114,7 +114,21 @@ public class ScadenzeController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetScadenza(int id)
     {
-        var scadenza = await _context.Scadenze.FindAsync(id);
+        var scadenza = await _context.Scadenze
+            .Where(s => s.Id == id)
+            .Select(s => new {
+                s.Id,
+                s.Name,
+                s.Date,
+                s.Rec,
+                s.InsDate,
+                s.ModDate,
+                s.InsUserId,
+                s.IsActive,
+                ScadenzeUtenti = s.ScadenzeUtenti.Select(su => new { su.Id, su.UtenteId, su.ScadenzaId, su.Utente.Nome, su.Utente.Cognome }),
+                ScadenzeClienti = s.ScadenzeClienti.Select(sc => new { sc.Id, sc.ClienteId, sc.ScadenzaId, sc.Cliente.Name })
+            })
+            .FirstOrDefaultAsync();
         if (scadenza == null) return NotFound();
         return Ok(scadenza);
     }

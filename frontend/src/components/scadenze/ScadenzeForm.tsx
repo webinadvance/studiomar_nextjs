@@ -30,7 +30,8 @@ import type { ScadenzeWithRelations, Utente, Cliente } from '../../../../shared'
 interface ScadenzeFormProps {
   open: boolean;
   onClose: () => void;
-  scadenza: ScadenzeWithRelations | null;
+  scadenza: ScadenzeWithRelations | null | undefined;
+  isLoading?: boolean;
 }
 
 interface FormValues {
@@ -41,13 +42,14 @@ interface FormValues {
   ClienteIds: Cliente[];
 }
 
-export default function ScadenzeForm({ open, onClose, scadenza }: ScadenzeFormProps) {
+export default function ScadenzeForm({ open, onClose, scadenza, isLoading: isScadenzaLoading = false }: ScadenzeFormProps) {
   const createMutation = useCreateScadenza();
   const updateMutation = useUpdateScadenza();
-  const { data: utenti = [] } = useUtenti();
-  const { data: clienti = [] } = useClienti();
+  const { data: utenti = [], isLoading: isUtentiLoading } = useUtenti();
+  const { data: clienti = [], isLoading: isClientiLoading } = useClienti();
 
-  const isEdit = scadenza !== null;
+  const isEdit = scadenza !== undefined && scadenza !== null;
+  const isDataLoading = isScadenzaLoading || isUtentiLoading || isClientiLoading;
 
   const {
     register,
@@ -66,33 +68,35 @@ export default function ScadenzeForm({ open, onClose, scadenza }: ScadenzeFormPr
   });
 
   useEffect(() => {
-    if (open) {
-      if (isEdit && scadenza) {
-        const selectedUtenti = scadenza.ScadenzeUtenti
-          ? utenti.filter((u) => scadenza.ScadenzeUtenti?.some((su) => su.UtenteId === u.Id))
-          : [];
-        const selectedClienti = scadenza.ScadenzeClienti
-          ? clienti.filter((c) => scadenza.ScadenzeClienti?.some((sc) => sc.ClienteId === c.Id))
-          : [];
+    if (!open) return;
 
-        reset({
-          Name: scadenza.Name,
-          Rec: scadenza.Rec || undefined,
-          Date: scadenza.Date ? parseISO(scadenza.Date) : null,
-          UtenteIds: selectedUtenti,
-          ClienteIds: selectedClienti,
-        });
-      } else {
-        reset({
-          Name: '',
-          Rec: undefined,
-          Date: null,
-          UtenteIds: [],
-          ClienteIds: [],
-        });
-      }
+    if (isEdit && scadenza) {
+      if (isDataLoading) return;
+
+      const selectedUtenti = scadenza.ScadenzeUtenti
+        ? utenti.filter((u) => scadenza.ScadenzeUtenti?.some((su) => su.UtenteId === u.Id))
+        : [];
+      const selectedClienti = scadenza.ScadenzeClienti
+        ? clienti.filter((c) => scadenza.ScadenzeClienti?.some((sc) => sc.ClienteId === c.Id))
+        : [];
+
+      reset({
+        Name: scadenza.Name,
+        Rec: scadenza.Rec || undefined,
+        Date: scadenza.Date ? parseISO(scadenza.Date) : null,
+        UtenteIds: selectedUtenti,
+        ClienteIds: selectedClienti,
+      });
+    } else {
+      reset({
+        Name: '',
+        Rec: undefined,
+        Date: null,
+        UtenteIds: [],
+        ClienteIds: [],
+      });
     }
-  }, [open, isEdit, scadenza, utenti, clienti, reset]);
+  }, [open, isEdit, scadenza, utenti, clienti, reset, isDataLoading]);
 
   const onSubmit = (values: FormValues) => {
     const payload = {
@@ -128,93 +132,101 @@ export default function ScadenzeForm({ open, onClose, scadenza }: ScadenzeFormPr
                 </Alert>
               )}
 
-              <TextField
-                label="Nome"
-                fullWidth
-                {...register('Name', { required: 'Nome è obbligatorio' })}
-                error={!!errors.Name}
-                helperText={errors.Name?.message}
-              />
-
-              <FormControl fullWidth>
-                <InputLabel>Ricorrenza</InputLabel>
-                <Select
-                  label="Ricorrenza"
-                  {...register('Rec', { valueAsNumber: true })}
-                  defaultValue={0}
-                >
-                  {recurrenceOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <Controller
-                name="Date"
-                control={control}
-                render={({ field }) => (
-                  <DatePicker
-                    label="Data"
-                    value={field.value}
-                    onChange={field.onChange}
-                    slotProps={{ textField: { fullWidth: true } }}
+              {isDataLoading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+                  <CircularProgress />
+                </Box>
+              ) : (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <TextField
+                    label="Nome"
+                    fullWidth
+                    {...register('Name', { required: 'Nome è obbligatorio' })}
+                    error={!!errors.Name}
+                    helperText={errors.Name?.message}
                   />
-                )}
-              />
 
-              <Controller
-                name="UtenteIds"
-                control={control}
-                render={({ field }) => (
-                  <Autocomplete
-                    multiple
-                    options={utenti}
-                    getOptionLabel={(o) => [o.Nome, o.Cognome].filter(Boolean).join(' ') || `#${o.Id}`}
-                    value={field.value}
-                    onChange={(_e, v) => field.onChange(v)}
-                    renderTags={(value, getTagProps) =>
-                      value.map((option, index) => (
-                        <Chip
-                          label={[option.Nome, option.Cognome].filter(Boolean).join(' ') || `#${option.Id}`}
-                          size="small"
-                          {...getTagProps({ index })}
-                          key={option.Id}
-                        />
-                      ))
-                    }
-                    renderInput={(params) => <TextField {...params} label="Utenti" fullWidth />}
-                    isOptionEqualToValue={(opt, val) => opt.Id === val.Id}
-                  />
-                )}
-              />
+                  <FormControl fullWidth>
+                    <InputLabel>Ricorrenza</InputLabel>
+                    <Select
+                      label="Ricorrenza"
+                      {...register('Rec', { valueAsNumber: true })}
+                      defaultValue={0}
+                    >
+                      {recurrenceOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-              <Controller
-                name="ClienteIds"
-                control={control}
-                render={({ field }) => (
-                  <Autocomplete
-                    multiple
-                    options={clienti}
-                    getOptionLabel={(o) => o.Name || `#${o.Id}`}
-                    value={field.value}
-                    onChange={(_e, v) => field.onChange(v)}
-                    renderTags={(value, getTagProps) =>
-                      value.map((option, index) => (
-                        <Chip
-                          label={option.Name || `#${option.Id}`}
-                          size="small"
-                          {...getTagProps({ index })}
-                          key={option.Id}
-                        />
-                      ))
-                    }
-                    renderInput={(params) => <TextField {...params} label="Clienti" fullWidth />}
-                    isOptionEqualToValue={(opt, val) => opt.Id === val.Id}
+                  <Controller
+                    name="Date"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        label="Data"
+                        value={field.value}
+                        onChange={field.onChange}
+                        slotProps={{ textField: { fullWidth: true } }}
+                      />
+                    )}
                   />
-                )}
-              />
+
+                  <Controller
+                    name="UtenteIds"
+                    control={control}
+                    render={({ field }) => (
+                      <Autocomplete
+                        multiple
+                        options={utenti}
+                        getOptionLabel={(o) => [o.Nome, o.Cognome].filter(Boolean).join(' ') || `#${o.Id}`}
+                        value={field.value}
+                        onChange={(_e, v) => field.onChange(v)}
+                        renderTags={(value, getTagProps) =>
+                          value.map((option, index) => (
+                            <Chip
+                              label={[option.Nome, option.Cognome].filter(Boolean).join(' ') || `#${option.Id}`}
+                              size="small"
+                              {...getTagProps({ index })}
+                              key={option.Id}
+                            />
+                          ))
+                        }
+                        renderInput={(params) => <TextField {...params} label="Utenti" fullWidth />}
+                        isOptionEqualToValue={(opt, val) => opt.Id === val.Id}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    name="ClienteIds"
+                    control={control}
+                    render={({ field }) => (
+                      <Autocomplete
+                        multiple
+                        options={clienti}
+                        getOptionLabel={(o) => o.Name || `#${o.Id}`}
+                        value={field.value}
+                        onChange={(_e, v) => field.onChange(v)}
+                        renderTags={(value, getTagProps) =>
+                          value.map((option, index) => (
+                            <Chip
+                              label={option.Name || `#${option.Id}`}
+                              size="small"
+                              {...getTagProps({ index })}
+                              key={option.Id}
+                            />
+                          ))
+                        }
+                        renderInput={(params) => <TextField {...params} label="Clienti" fullWidth />}
+                        isOptionEqualToValue={(opt, val) => opt.Id === val.Id}
+                      />
+                    )}
+                  />
+                </Box>
+              )}
             </Box>
           </DialogContent>
           <DialogActions>
