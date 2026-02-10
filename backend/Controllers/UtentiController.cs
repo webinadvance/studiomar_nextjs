@@ -30,7 +30,7 @@ public class UtentiController : ControllerBase
             );
         }
         
-        var utenti = await query.ToListAsync();
+        var utenti = await query.OrderByDescending(u => u.ModDate).ToListAsync();
         return Ok(utenti);
     }
 

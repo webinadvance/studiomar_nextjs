@@ -27,7 +27,7 @@ public class ClientiController : ControllerBase
             query = query.Where(c => c.Name != null && c.Name.ToLower().Contains(lowerFilter));
         }
         
-        var clienti = await query.ToListAsync();
+        var clienti = await query.OrderByDescending(c => c.ModDate).ToListAsync();
         return Ok(clienti);
     }
 
