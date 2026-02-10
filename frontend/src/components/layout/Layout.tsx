@@ -29,6 +29,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import { useAuth } from '../../context/AuthContext';
+import ColorPicker from '../ColorPicker';
 
 const drawerWidth = 260;
 
@@ -230,6 +231,9 @@ function Layout({ children }: LayoutProps) {
                  </ListItemIcon>
                  <ListItemText>Profilo</ListItemText>
                </MenuItem>
+               <Divider />
+               <ColorPicker />
+               <Divider />
               <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
                   <LogoutIcon fontSize="small" color="error" />
                 <ListItemText>Esci</ListItemText>
