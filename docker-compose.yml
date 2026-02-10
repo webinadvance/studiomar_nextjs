@@ -28,6 +28,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - C:\data:/app/data
+      - ./data.sql:/app/data/data.sql:ro
 
 volumes:
   postgres_data:
