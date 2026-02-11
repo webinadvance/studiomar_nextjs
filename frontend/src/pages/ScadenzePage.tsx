@@ -33,7 +33,14 @@ export default function ScadenzePage() {
 
   const handleExportPDF = useCallback(async () => {
     try {
-      const blob = await exportMutation.mutateAsync(filters);
+      const apiFilters = {
+        filter: filters.filter,
+        date_start: filters.date_start,
+        date_end: filters.date_end,
+        utente_id: filters.utente_ids?.[0],
+        cliente_id: filters.cliente_ids?.[0],
+      };
+      const blob = await exportMutation.mutateAsync(apiFilters);
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
