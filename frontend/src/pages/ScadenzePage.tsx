@@ -48,32 +48,32 @@ export default function ScadenzePage() {
   }, [filters, exportMutation]);
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 120px)' }}>
        <PageHeader 
-         title="Scadenze" 
-         subtitle="Gestisci le scadenze imminenti e gli eventi."
-        action={
-          <>
-            <Button
-              variant="outlined"
-              startIcon={<FileDownloadIcon />}
-              onClick={handleExportPDF}
-              disabled={exportMutation.isPending}
-            >
-              {exportMutation.isPending ? 'Esportazione...' : 'Esporta PDF'}
-            </Button>
-            <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreate}>
-              Nuova Scadenza
-            </Button>
-          </>
-        }
-      />
+          title="Scadenze" 
+          subtitle="Gestisci le scadenze imminenti e gli eventi."
+         action={
+           <>
+             <Button
+               variant="outlined"
+               startIcon={<FileDownloadIcon />}
+               onClick={handleExportPDF}
+               disabled={exportMutation.isPending}
+             >
+               {exportMutation.isPending ? 'Esportazione...' : 'Esporta PDF'}
+             </Button>
+             <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreate}>
+               Nuova Scadenza
+             </Button>
+           </>
+         }
+       />
 
-      <Paper sx={{ p: { xs: 2, sm: 3 }, mb: 4, borderRadius: 3 }} elevation={0}>
+      <Paper sx={{ p: { xs: 2, sm: 3 }, mb: 2, borderRadius: 3, flexShrink: 0 }} elevation={0}>
         <ScadenzeFilters onChange={setFilters} />
       </Paper>
 
-      <Paper sx={{ p: 0, borderRadius: 3, overflow: 'hidden', border: '1px solid rgba(0,0,0,0.08)' }} elevation={0}>
+      <Paper sx={{ p: 0, borderRadius: 3, overflow: 'hidden', border: '1px solid rgba(0,0,0,0.08)', flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }} elevation={0}>
          <ScadenzeList filters={filters} onEdit={handleEdit} />
       </Paper>
 

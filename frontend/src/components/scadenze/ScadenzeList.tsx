@@ -199,7 +199,7 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
   }
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {scadenze.length === 0 && !isLoading && (
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
           Nessuna scadenza trovata.
@@ -264,14 +264,16 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
           rows={scadenze}
           columns={columns}
           loading={isLoading}
-          autoHeight
           pageSizeOptions={[10, 25, 50]}
           initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
           disableRowSelectionOnClick
           getRowHeight={() => 'auto'}
           getRowId={(row) => row.Id}
           sx={{
+            flex: 1,
+            minHeight: 0,
             '& .MuiDataGrid-cell': { py: 1 },
+            '& .MuiDataGrid-main': { flex: 1 },
           }}
         />
       )}

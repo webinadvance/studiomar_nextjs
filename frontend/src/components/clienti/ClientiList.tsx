@@ -150,8 +150,8 @@ export default function ClientiList({ onEdit }: ClientiListProps) {
   }
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', gap: 2, mb: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 2, alignItems: 'center', flexWrap: 'wrap', flexShrink: 0 }}>
         <TextField
           label="Cerca clienti"
           variant="outlined"
@@ -200,11 +200,13 @@ export default function ClientiList({ onEdit }: ClientiListProps) {
           initialState={{
             pagination: { paginationModel: { pageSize: 10 } },
           }}
-          autoHeight
           disableRowSelectionOnClick
           getRowId={(row) => row.Id}
           sx={{
+            flex: 1,
+            minHeight: 0,
             '& .MuiDataGrid-cell:focus': { outline: 'none' },
+            '& .MuiDataGrid-main': { flex: 1 },
           }}
         />
       )}

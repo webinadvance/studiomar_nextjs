@@ -26,18 +26,18 @@ export default function UtentiPage() {
   }, []);
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 120px)' }}>
        <PageHeader
-         title="Utenti"
-         subtitle="Gestisci gli utenti e le autorizzazioni del sistema."
-        action={
-          <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreate}>
-            Nuovo Utente
-          </Button>
-        }
-      />
+          title="Utenti"
+          subtitle="Gestisci gli utenti e le autorizzazioni del sistema."
+         action={
+           <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreate}>
+             Nuovo Utente
+           </Button>
+         }
+       />
 
-      <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }} elevation={0}>
+      <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }} elevation={0}>
         <UtentiList onEdit={handleEdit} />
       </Paper>
 

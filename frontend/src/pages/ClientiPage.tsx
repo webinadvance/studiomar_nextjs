@@ -25,22 +25,22 @@ export default function ClientiPage() {
   }, []);
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 120px)' }}>
        <PageHeader
-         title="Clienti"
-         subtitle="Gestisci il tuo database di clienti."
-        action={
-          <Button variant="contained" startIcon={<AddIcon />} onClick={handleAdd}>
-            Nuovo Cliente
-          </Button>
-        }
-      />
-      
-      <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }} elevation={0}>
-         <ClientiList onEdit={handleEdit} />
-      </Paper>
-      
-      <ClientiForm open={formOpen} onClose={handleClose} editId={editId} />
+          title="Clienti"
+          subtitle="Gestisci il tuo database di clienti."
+         action={
+           <Button variant="contained" startIcon={<AddIcon />} onClick={handleAdd}>
+             Nuovo Cliente
+           </Button>
+         }
+       />
+       
+       <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }} elevation={0}>
+          <ClientiList onEdit={handleEdit} />
+       </Paper>
+       
+       <ClientiForm open={formOpen} onClose={handleClose} editId={editId} />
     </Box>
   );
 }

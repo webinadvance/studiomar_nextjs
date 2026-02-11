@@ -1,7 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { 
   Box, 
-  Container, 
   AppBar, 
   Toolbar, 
   Typography, 
@@ -282,8 +281,6 @@ function Layout({ children }: LayoutProps) {
         sx={{
           flexGrow: 1,
           p: { xs: 1.5, sm: 2, md: 3 },
-          width: { md: `calc(100% - ${drawerWidth}px)` },
-          ml: { md: `${drawerWidth}px` },
           mt: 8, // Space for AppBar
           transition: 'all 0.3s ease',
           maxWidth: '100vw',
@@ -291,9 +288,7 @@ function Layout({ children }: LayoutProps) {
         }}
       >
          {/* Breadcrumbs or Page Header could go here */}
-        <Container maxWidth="xl" disableGutters>
-            {children}
-        </Container>
+         {children}
       </Box>
     </Box>
   );

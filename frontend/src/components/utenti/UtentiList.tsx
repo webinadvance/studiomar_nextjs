@@ -108,7 +108,7 @@ export default function UtentiList({ onEdit }: UtentiListProps) {
   }
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <TextField
         label="Cerca utenti"
         variant="outlined"
@@ -116,7 +116,7 @@ export default function UtentiList({ onEdit }: UtentiListProps) {
         fullWidth
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        sx={{ mb: 2 }}
+        sx={{ mb: 2, flexShrink: 0 }}
       />
 
       {isLoading ? (
@@ -160,13 +160,17 @@ export default function UtentiList({ onEdit }: UtentiListProps) {
         <DataGrid
           rows={utenti ?? []}
           columns={columns}
-          autoHeight
           pageSizeOptions={[10, 25, 50]}
           initialState={{
             pagination: { paginationModel: { pageSize: 10 } },
           }}
           disableRowSelectionOnClick
           getRowId={(row) => row.Id}
+          sx={{
+            flex: 1,
+            minHeight: 0,
+            '& .MuiDataGrid-main': { flex: 1 },
+          }}
         />
       )}
     </Box>
