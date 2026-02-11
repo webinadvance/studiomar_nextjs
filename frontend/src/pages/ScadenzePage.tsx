@@ -48,7 +48,7 @@ export default function ScadenzePage() {
   }, [filters, exportMutation]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 120px)' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 120px)' }}>
        <PageHeader 
           title="Scadenze" 
           subtitle="Gestisci le scadenze imminenti e gli eventi."
