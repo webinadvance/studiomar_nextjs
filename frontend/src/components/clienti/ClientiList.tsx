@@ -11,8 +11,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Stack,
+  Typography,
+  Chip,
 } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import MobileCardList from '../common/MobileCardList';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -163,6 +167,31 @@ export default function ClientiList({ onEdit }: ClientiListProps) {
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
           <CircularProgress />
         </Box>
+      ) : isSmall ? (
+        <MobileCardList
+          data={clienti ?? []}
+          keyExtractor={(item) => item.Id}
+          isLoading={isLoading}
+          onEdit={(item) => onEdit(item.Id)}
+          onDelete={(item) => setDeleteTarget(item)}
+          renderContent={(item) => (
+             <Box>
+               <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                 {item.Name}
+               </Typography>
+               <Stack direction="row" spacing={1} alignItems="center">
+                  {item.IsActive ? (
+                      <Chip label="Attivo" color="success" size="small" variant="outlined" />
+                  ) : (
+                      <Chip label="Non attivo" color="error" size="small" variant="outlined" />
+                  )}
+                  <Typography variant="caption" color="text.secondary">
+                      ID: {item.Id}
+                  </Typography>
+               </Stack>
+             </Box>
+          )}
+        />
       ) : (
         <DataGrid
           rows={clienti ?? []}

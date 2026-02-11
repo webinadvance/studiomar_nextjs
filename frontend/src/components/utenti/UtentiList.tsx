@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { Box, TextField, IconButton, Typography, CircularProgress, Alert } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import MobileCardList from '../common/MobileCardList';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import type { Utente } from '../../../../shared';
@@ -123,6 +124,38 @@ export default function UtentiList({ onEdit }: UtentiListProps) {
           <CircularProgress />
           <Typography sx={{ ml: 2 }}>Caricamento...</Typography>
         </Box>
+      ) : isSmall ? (
+        <MobileCardList
+          data={utenti ?? []}
+          keyExtractor={(item) => item.Id}
+          isLoading={isLoading}
+          onEdit={(item) => onEdit(item)}
+          onDelete={(item) => handleDelete(item.Id)}
+          renderContent={(item) => (
+             <Box>
+               <Typography variant="subtitle1" fontWeight={600}>
+                 {[item.Nome, item.Cognome].filter(Boolean).join(' ')}
+               </Typography>
+               <Typography 
+                 variant="body2" 
+                 color="text.secondary" 
+                 sx={{ 
+                   wordBreak: 'break-all',
+                   overflow: 'hidden',
+                   textOverflow: 'ellipsis',
+                   display: '-webkit-box',
+                   WebkitLineClamp: 1,
+                   WebkitBoxOrient: 'vertical'
+                 }}
+               >
+                 {item.Email}
+               </Typography>
+                <Typography variant="caption" color="text.disabled">
+                  ID: {item.Id}
+                </Typography>
+             </Box>
+          )}
+        />
       ) : (
         <DataGrid
           rows={utenti ?? []}

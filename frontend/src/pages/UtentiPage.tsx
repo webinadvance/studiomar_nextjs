@@ -37,7 +37,7 @@ export default function UtentiPage() {
         }
       />
 
-      <Paper sx={{ p: 3, borderRadius: 3 }} elevation={0}>
+      <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }} elevation={0}>
         <UtentiList onEdit={handleEdit} />
       </Paper>
 

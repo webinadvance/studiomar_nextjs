@@ -10,6 +10,7 @@ import { useClienti } from '../../hooks/useClienti';
 import type { ScadenzeFilterValues } from './ScadenzeFilters';
 import type { ScadenzeWithRelations, Utente, Cliente } from '../../../../shared';
 import ConfirmDeleteDialog from '../common/ConfirmDeleteDialog';
+import MobileCardList from '../common/MobileCardList';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -205,20 +206,75 @@ export default function ScadenzeList({ filters, onEdit }: ScadenzeListProps) {
         </Typography>
       )}
 
-      <DataGrid
-        rows={scadenze}
-        columns={columns}
-        loading={isLoading}
-        autoHeight
-        pageSizeOptions={[10, 25, 50]}
-        initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
-        disableRowSelectionOnClick
-        getRowHeight={() => 'auto'}
-        getRowId={(row) => row.Id}
-        sx={{
-          '& .MuiDataGrid-cell': { py: 1 },
-        }}
-      />
+      {isSmall ? (
+        <MobileCardList 
+          data={scadenze}
+          keyExtractor={(item) => item.Id}
+          isLoading={isLoading}
+          onEdit={(item) => onEdit(item.Id)}
+          onDelete={(item) => setDeleteTarget(item.Id)}
+          renderContent={(item) => (
+            <Box>
+              <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                {item.Name}
+              </Typography>
+              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+                <Chip 
+                  label={formatDate(item.ScadenzaReale)} 
+                  size="small" 
+                  color="primary" 
+                  variant="outlined" 
+                  sx={{ borderRadius: 1 }}
+                />
+                {item.Rec > 0 && (
+                  <Chip 
+                    label={`${item.Rec} mesi`} 
+                    size="small" 
+                    sx={{ borderRadius: 1, bgcolor: 'action.hover' }} 
+                  />
+                )}
+              </Stack>
+              
+              <Stack spacing={1}>
+                {(item.ScadenzeUtenti?.length ?? 0) > 0 && (
+                  <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+                    {item.ScadenzeUtenti?.map((su) => {
+                      const u = utentiMap.get(su.UtenteId ?? 0);
+                      const label = u ? [u.Nome, u.Cognome].filter(Boolean).join(' ') : `#${su.UtenteId}`;
+                      return <Chip key={su.Id} label={label} size="small" sx={{ fontSize: '0.75rem' }} />;
+                    })}
+                  </Box>
+                )}
+                
+                {(item.ScadenzeClienti?.length ?? 0) > 0 && (
+                  <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+                    {item.ScadenzeClienti?.map((sc) => {
+                       const c = clientiMap.get(sc.ClienteId ?? 0);
+                       const label = c ? c.Name : `#${sc.ClienteId}`;
+                       return <Chip key={sc.Id} label={label} size="small" variant="outlined" sx={{ fontSize: '0.75rem' }} />;
+                    })}
+                  </Box>
+                )}
+              </Stack>
+            </Box>
+          )}
+        />
+      ) : (
+        <DataGrid
+          rows={scadenze}
+          columns={columns}
+          loading={isLoading}
+          autoHeight
+          pageSizeOptions={[10, 25, 50]}
+          initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
+          disableRowSelectionOnClick
+          getRowHeight={() => 'auto'}
+          getRowId={(row) => row.Id}
+          sx={{
+            '& .MuiDataGrid-cell': { py: 1 },
+          }}
+        />
+      )}
 
       <ConfirmDeleteDialog
         open={deleteTarget !== null}

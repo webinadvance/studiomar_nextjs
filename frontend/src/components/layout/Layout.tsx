@@ -281,10 +281,13 @@ function Layout({ children }: LayoutProps) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          p: { xs: 1.5, sm: 2, md: 3 },
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          ml: { md: `${drawerWidth}px` },
           mt: 8, // Space for AppBar
-          transition: 'all 0.3s ease'
+          transition: 'all 0.3s ease',
+          maxWidth: '100vw',
+          overflowX: 'hidden'
         }}
       >
          {/* Breadcrumbs or Page Header could go here */}

@@ -36,7 +36,7 @@ export default function ClientiPage() {
         }
       />
       
-      <Paper sx={{ p: 3, borderRadius: 3 }} elevation={0}>
+      <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }} elevation={0}>
          <ClientiList onEdit={handleEdit} />
       </Paper>
       

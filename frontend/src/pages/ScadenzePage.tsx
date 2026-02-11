@@ -69,7 +69,7 @@ export default function ScadenzePage() {
         }
       />
 
-      <Paper sx={{ p: 3, mb: 4, borderRadius: 3 }} elevation={0}>
+      <Paper sx={{ p: { xs: 2, sm: 3 }, mb: 4, borderRadius: 3 }} elevation={0}>
         <ScadenzeFilters onChange={setFilters} />
       </Paper>
 

@@ -1,0 +1,49 @@
+name: Deploy studiomar
+
+on:
+  push:
+    branches: [ master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup SSH Key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo -e "Host *\n\tStrictHostKeyChecking no\n\t" >> ~/.ssh/config
+
+      - name: Test SSH connection
+        env:
+          HOST: ${{ secrets.HOST }}
+        run: |
+          if [ -z "$HOST" ]; then
+            echo "HOST secret is not set!"
+            exit 1
+          fi
+          ssh -i ~/.ssh/deploy_key -p 2222 root@$HOST "echo 'SSH connection successful'" || exit 1
+
+      - name: Run deploy script
+        env:
+          HOST: ${{ secrets.HOST }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -p 2222 root@$HOST << 'ENDSSH'
+            set -e
+            cd /root/src/studiomar
+            git pull
+            chmod +x deploy.sh
+            ./deploy.sh
+          ENDSSH
