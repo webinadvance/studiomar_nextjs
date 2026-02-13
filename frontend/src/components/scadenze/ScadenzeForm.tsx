@@ -13,8 +13,11 @@ import {
   Chip,
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { itIT } from '@mui/x-date-pickers/locales';
+import itLocale from 'date-fns/locale/it';
 import { useCreateScadenza, useUpdateScadenza } from '../../hooks/useScadenze';
 import { useUtenti } from '../../hooks/useUtenti';
 import { useClienti } from '../../hooks/useClienti';
@@ -117,7 +120,7 @@ export default function ScadenzeForm({ open, onClose, scadenza, isLoading: isSca
   const error = createMutation.error || updateMutation.error;
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={itLocale} localeText={itIT.components.MuiLocalizationProvider.defaultProps.localeText}>
       <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
         <DialogTitle>{isEdit ? 'Modifica Scadenza' : 'Nuova Scadenza'}</DialogTitle>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -150,6 +153,21 @@ export default function ScadenzeForm({ open, onClose, scadenza, isLoading: isSca
                     {...register('Rec', { valueAsNumber: true })}
                     error={!!errors.Rec}
                     helperText={errors.Rec?.message}
+                  />
+
+                  <Controller
+                    name="Date"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        label="Data Scadenza"
+                        value={field.value ? new Date(field.value) : null}
+                        onChange={(newValue) => field.onChange(newValue ? newValue.toISOString() : null)}
+                        slotProps={{
+                          textField: { fullWidth: true }
+                        }}
+                      />
+                    )}
                   />
 
                   <Controller
