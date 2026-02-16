@@ -93,6 +93,14 @@ public class UtentiController : ControllerBase
     {
         var utente = await _context.Utenti.FindAsync(id);
         if (utente == null) return NotFound();
+
+        // Remove relationships in junction table
+        var relations = await _context.ScadenzeUtenti.Where(su => su.UtenteId == id).ToListAsync();
+        if (relations.Any())
+        {
+            _context.ScadenzeUtenti.RemoveRange(relations);
+        }
+
         _context.Utenti.Remove(utente);
         await _context.SaveChangesAsync();
         return NoContent();

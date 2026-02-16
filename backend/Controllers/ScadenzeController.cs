@@ -414,8 +414,24 @@ public class ScadenzeController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteScadenza(int id)
     {
-        var scadenza = await _context.Scadenze.FindAsync(id);
+        var scadenza = await _context.Scadenze
+            .Include(s => s.ScadenzeUtenti)
+            .Include(s => s.ScadenzeClienti)
+            .FirstOrDefaultAsync(s => s.Id == id);
+
         if (scadenza == null) return NotFound();
+
+        // Remove relationships first to avoid foreign key violations
+        if (scadenza.ScadenzeUtenti != null && scadenza.ScadenzeUtenti.Any())
+        {
+            _context.ScadenzeUtenti.RemoveRange(scadenza.ScadenzeUtenti);
+        }
+
+        if (scadenza.ScadenzeClienti != null && scadenza.ScadenzeClienti.Any())
+        {
+            _context.ScadenzeClienti.RemoveRange(scadenza.ScadenzeClienti);
+        }
+
         _context.Scadenze.Remove(scadenza);
         await _context.SaveChangesAsync();
         return NoContent();

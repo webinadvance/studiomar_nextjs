@@ -82,6 +82,14 @@ public class ClientiController : ControllerBase
     {
         var cliente = await _context.Clienti.FindAsync(id);
         if (cliente == null) return NotFound();
+
+        // Remove relationships in junction table
+        var relations = await _context.ScadenzeClienti.Where(sc => sc.ClienteId == id).ToListAsync();
+        if (relations.Any())
+        {
+            _context.ScadenzeClienti.RemoveRange(relations);
+        }
+
         _context.Clienti.Remove(cliente);
         await _context.SaveChangesAsync();
         return NoContent();
